@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTicket | HTML Fundamentals - Session 1</title>
+    <link rel="icon" href="../logo.png" type="image/x-icon">
+    <style>
+        /* === CSS Variables for Dark Theme === */
+        :root {
+            --bg-color: #0b1120;
+            --bg-card: #1e293b;
+            --bg-code: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-cyan: #22d3ee;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --accent-yellow: #f59e0b;
+            --border-color: #334155;
+            --success-color: #10b981;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-code: 'Consolas', 'Courier New', monospace;
+        }
+
+        /* === Global Styles === */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* === Typography === */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: 2.2rem; color: #ffffff; }
+        h2 { font-size: 1.8rem; color: var(--accent-cyan); border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-top: 1rem; }
+        h3 { font-size: 1.4rem; color: var(--accent-blue); }
+        
+        p { margin-bottom: 1.2rem; }
+        ul, ol { margin-left: 1.5rem; margin-bottom: 1.2rem; }
+        li { margin-bottom: 0.5rem; }
+        
+        strong { color: var(--accent-cyan); font-weight: 600; }
+        
+        /* Inline code */
+        code:not(.code-block code) {
+            background-color: var(--bg-code);
+            color: var(--accent-cyan);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-code);
+            font-size: 0.9em;
+            border: 1px solid var(--border-color);
+        }
+
+        /* === Layout & Structure === */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(180deg, #0f172a 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .logo-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-container img {
+            max-width: 250px;
+            height: auto;
+        }
+
+        .logo-fallback {
+            display: none;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-cyan);
+            letter-spacing: 2px;
+            border: 2px solid var(--accent-cyan);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-transform: uppercase;
+        }
+
+        .course-title {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #4b5563;
+        }
+
+        .part-divider {
+            text-align: center;
+            margin: 4rem 0;
+            color: var(--accent-blue);
+            font-size: 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* === Visual Explanations (SVGs) === */
+        .visual-diagram {
+            background-color: var(--bg-code);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed var(--border-color);
+            overflow-x: auto;
+        }
+
+        .visual-diagram svg {
+            max-width: 100%;
+            height: auto;
+            min-height: 450px;
+        }
+
+        .code-editor {
+            background-color: var(--bg-code);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin: 1.5rem 0;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .code-header {
+            background-color: #1e293b;
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .mac-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .mac-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .close { background-color: #ff5f56; }
+        .min { background-color: #ffbd2e; }
+        .max { background-color: #27c93f; }
+
+        .btn-copy {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--text-muted);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-main);
+            font-weight: bold;
+        }
+
+        .btn-copy:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            background-color: rgba(6, 182, 212, 0.1);
+        }
+
+        .btn-copy.copied {
+            background-color: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+
+        .code-block {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 0;
+        }
+
+        .code-block code {
+            font-family: var(--font-code);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e5e7eb;
+            white-space: pre;
+        }
+
+        /* Syntax Highlighting */
+        .hl-bracket { color: #8b5cf6; } /* purple */
+        .hl-tag { color: #ec4899; } /* pink */
+        .hl-attr { color: #f59e0b; } /* yellow */
+        .hl-string { color: #10b981; } /* green */
+        .hl-comment { color: #6b7280; font-style: italic; } /* gray */
+
+        /* === Interactive Features (Hints & Collapsibles) === */
+        .exercise-box {
+            background-color: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .challenge-box {
+            background-color: rgba(236, 72, 153, 0.05);
+            border-left: 4px solid var(--accent-pink);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .btn-hint {
+            background-color: #1f2937;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-hint:hover {
+            background-color: #374151;
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .hint-content {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #030712;
+            border-radius: 6px;
+            border: 1px dashed var(--accent-cyan);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Collapsible Explanation */
+        .collapsible-btn {
+            background-color: transparent;
+            color: var(--accent-cyan);
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-weight: bold;
+            font-family: var(--font-main);
+            width: 100%;
+            text-align: left;
+        }
+
+        .collapsible-btn::before {
+            content: '▶';
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+
+        .collapsible-btn.active::before {
+            transform: rotate(90deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 1rem;
+            background-color: rgba(255,255,255,0.02);
+            border-left: 2px solid var(--border-color);
+            margin-top: 0.5rem;
+            border-radius: 0 0 8px 0;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === Navigation & Footer === */
+        .session-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-btn {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+            text-align: center;
+            flex: 1;
+            margin: 0 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+            background-color: #030712;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 768px) {
+            .container { padding: 0 10px; }
+            .card { padding: 1.5rem; }
+            h1 { font-size: 1.8rem; }
+            .session-nav { flex-direction: column; gap: 1rem; }
+            .nav-btn { margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="../logo.png" alt="TechTicket Logo" class="logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+            <h2 id="logo-fallback" style="display:none; color: var(--accent-cyan); border: none; font-size: 2.5rem; letter-spacing: 2px;">TechTicket</h2>
+        </div>
+        <div class="course-title">HTML Fundamentals</div>
+        <h1>Session 1 — Understanding the Internet, the Web, and Your First HTML Page</h1>
+    </header>
+
+    <main class="container">
+
+        <section class="card">
+            <h2>🎯 Session Overview</h2>
+            <p>Welcome to the world of web development! Before we can start typing code and building amazing websites, we need to understand how the digital world actually works.</p>
+            <p>In this session, you will learn:</p>
+            <ul>
+                <li>What the <strong>Internet</strong> and the <strong>Web</strong> actually are.</li>
+                <li>How a <strong>Server</strong> talks to your <strong>Web Browser</strong>.</li>
+                <li>What <strong>HTML</strong> is and why it's the skeleton of every website.</li>
+                <li>How to write and run your very first <strong>HTML webpage</strong>!</li>
+            </ul>
+        </section>
+
+        <div class="part-divider">PART 1 — Understanding the Internet</div>
+
+        <section class="card">
+            <h2>🌍 What is the Internet?</h2>
+            <p>You use the Internet every day to play online games, watch YouTube, or scroll through Instagram. But what is it, really?</p>
+            <p>In simple terms, <strong>the Internet is a massive, global network of connected computers.</strong></p>
+            <p>Imagine millions of invisible cables and wireless signals connecting your laptop or phone to computers in Japan, America, and Europe. Because these computers are connected, they can send messages and data to each other instantly.</p>
+            
+            <div class="visual-diagram">
+                <svg width="500" height="200" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="250" cy="100" rx="90" ry="50" fill="#1e293b" stroke="#06b6d4" stroke-width="3" stroke-dasharray="5,5"/>
+                    <text x="250" y="105" fill="#06b6d4" font-family="sans-serif" font-size="20" font-weight="bold" text-anchor="middle">THE INTERNET</text>
+                    
+                    <line x1="90" y1="100" x2="160" y2="100" stroke="#3b82f6" stroke-width="3" />
+                    <line x1="250" y1="150" x2="250" y2="190" stroke="#3b82f6" stroke-width="3" />
+                    <line x1="340" y1="100" x2="410" y2="100" stroke="#3b82f6" stroke-width="3" />
+                    
+                    <rect x="20" y="70" width="70" height="50" rx="4" fill="#374151" />
+                    <rect x="10" y="120" width="90" height="10" rx="2" fill="#9ca3af" />
+                    <text x="55" y="150" fill="#f3f4f6" font-family="sans-serif" font-size="14" text-anchor="middle">Your Computer</text>
+
+                    <rect x="230" y="190" width="40" height="70" rx="5" fill="#374151" />
+                    <text x="250" y="275" fill="#f3f4f6" font-family="sans-serif" font-size="14" text-anchor="middle">Phone</text>
+
+                    <rect x="410" y="60" width="50" height="80" rx="4" fill="#10b981" />
+                    <line x1="420" y1="70" x2="450" y2="70" stroke="#064e3b" stroke-width="4" />
+                    <line x1="420" y1="85" x2="450" y2="85" stroke="#064e3b" stroke-width="4" />
+                    <line x1="420" y1="100" x2="450" y2="100" stroke="#064e3b" stroke-width="4" />
+                    <text x="435" y="160" fill="#10b981" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Server</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🗄️ What is a Server?</h2>
+            <p>A <strong>server</strong> is just a very powerful, specialized computer. Unlike your laptop, which you turn off when you go to sleep, servers stay on 24 hours a day, 7 days a week.</p>
+            <p>What is their job? <strong>To store website files and "serve" them to you.</strong></p>
+            <p>Think of it like a restaurant: You (the user) order a pizza. The waiter (the Internet) takes your order to the kitchen (the Server). The kitchen prepares the pizza (the Website) and the waiter brings it back to your table!</p>
+
+            <div class="visual-diagram">
+                <svg width="600" height="120" viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="30" width="80" height="60" rx="8" fill="#374151" stroke="#f3f4f6" stroke-width="2"/>
+                    <text x="90" y="65" fill="#f3f4f6" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">You</text>
+                    
+                    <rect x="470" y="30" width="80" height="60" rx="8" fill="#10b981" stroke="#047857" stroke-width="2"/>
+                    <text x="510" y="65" fill="#ffffff" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Server</text>
+
+                    <path d="M 140 45 L 450 45" stroke="#06b6d4" stroke-width="4" marker-end="url(#arrow-blue)"/>
+                    <text x="295" y="35" fill="#06b6d4" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">"Send me youtube.com!"</text>
+
+                    <path d="M 450 75 L 140 75" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow-yellow)"/>
+                    <text x="295" y="100" fill="#f59e0b" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">"Here are the website files!"</text>
+
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#06b6d4" />
+                        </marker>
+                        <marker id="arrow-yellow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🕸️ What is the Web (and Web Browsers)?</h2>
+            <p>People often confuse the "Internet" with the "Web", but they are different!</p>
+            <p>If the <strong>Internet</strong> is the roads and highways connecting the world, the <strong>Web (World Wide Web)</strong> is all the shops, houses, and buildings built on those roads. The Web is a massive collection of <strong>websites</strong> (like Wikipedia, Google, Netflix) that are connected together by clickable links.</p>
+            
+            <h3>What is a Web Browser?</h3>
+            <p>When the server sends website files to your computer, they look like confusing, messy code. Your computer needs a "translator" to turn that code into beautiful colors, buttons, and images.</p>
+            <p>A <strong>Web Browser</strong> is software that translates website code. You are using one right now! Examples include:</p>
+            <ul>
+                <li>Google Chrome</li>
+                <li>Apple Safari</li>
+                <li>Microsoft Edge</li>
+            </ul>
+        </section>
+
+        <div class="part-divider">PART 2 — Introduction to HTML</div>
+
+        <section class="card">
+            <h2>🦴 What is HTML?</h2>
+            <p>When you build a house, you have to put up a wooden skeleton or frame first, before you can paint the walls or add furniture. </p>
+            <p><strong>HTML</strong> stands for <strong>H</strong>yper<strong>T</strong>ext <strong>M</strong>arkup <strong>L</strong>anguage. It is the "skeleton" of every single web page on the internet.</p>
+            <p>HTML does <em>not</em> control the design, colors, or animations of a website. It simply tells the browser <strong>what</strong> the content is. For example, HTML tells the browser: "This is a big title, this is a paragraph, and this is an image."</p>
+        </section>
+
+        <section class="card">
+            <h2>🏗️ The Structure of an HTML Document</h2>
+            <p>Every HTML page ever created follows a specific, organized structure. It uses things called <strong>Tags</strong>, which are words wrapped in angle brackets like this: <code>&lt;tag&gt;</code>.</p>
+            
+            <p>Here is the "sandwich" structure of a web page:</p>
+            
+            <div class="visual-diagram" style="flex-direction: column;">
+                <svg width="400" height="320" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="380" height="300" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="25" y="35" fill="#3b82f6" font-family="monospace" font-weight="bold" font-size="16">&lt;html&gt;</text>
+                    
+                    <rect x="30" y="50" width="340" height="90" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+                    <text x="45" y="75" fill="#f59e0b" font-family="monospace" font-weight="bold" font-size="16">&lt;head&gt;</text>
+                    <text x="65" y="100" fill="#9ca3af" font-family="sans-serif" font-size="14">(The Brain: Hidden Settings)</text>
+                    
+                    <rect x="65" y="110" width="270" height="20" rx="3" fill="#374151"/>
+                    <text x="75" y="125" fill="#f3f4f6" font-family="monospace" font-size="12">&lt;title&gt; My Website &lt;/title&gt;</text>
+                    
+                    <rect x="30" y="160" width="340" height="110" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+                    <text x="45" y="185" fill="#10b981" font-family="monospace" font-weight="bold" font-size="16">&lt;body&gt;</text>
+                    <text x="65" y="215" fill="#f3f4f6" font-family="sans-serif" font-weight="bold" font-size="16">(The Body: Everything you see!)</text>
+                    <text x="65" y="245" fill="#9ca3af" font-family="sans-serif" font-size="14">Titles, text, images, buttons go here.</text>
+                    
+                    <text x="25" y="295" fill="#3b82f6" font-family="monospace" font-weight="bold" font-size="16">&lt;/html&gt;</text>
+                </svg>
+            </div>
+
+            <button class="collapsible-btn" onclick="toggleCollapsible('structure-explain')">Read Detailed Explanation</button>
+            <div id="structure-explain" class="collapsible-content">
+                <ul>
+                    <li><strong><code>&lt;html&gt;</code>:</strong> The main wrapper. Everything in your website lives inside this tag.</li>
+                    <li><strong><code>&lt;head&gt;</code>:</strong> The "brain". It contains hidden information about your page that the user doesn't see directly on the screen.</li>
+                    <li><strong><code>&lt;title&gt;</code>:</strong> Lives inside the head. This is the text that appears on the top tab of your browser window!</li>
+                    <li><strong><code>&lt;body&gt;</code>:</strong> The "visible" part. Any text, images, or buttons you want the user to see must be placed inside the body tags!</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>💻 Your First HTML Page</h2>
+            <p>It's time to code! Let's build a real, working web page. Look at the code below.</p>
+
+            <div class="code-editor">
+                <div class="code-header">
+                    <div class="mac-buttons">
+                        <div class="mac-btn close"></div>
+                        <div class="mac-btn min"></div>
+                        <div class="mac-btn max"></div>
+                    </div>
+                    <button class="btn-copy" onclick="copyCode('code1', this)"><i class="fas fa-copy"></i> Copy Code</button>
+                </div>
+                <div class="code-block">
+<pre><code id="code1"><span class="hl-bracket">&lt;!DOCTYPE html&gt;</span>
+<span class="hl-bracket">&lt;</span><span class="hl-tag">html</span><span class="hl-bracket">&gt;</span>
+  <span class="hl-bracket">&lt;</span><span class="hl-tag">head</span><span class="hl-bracket">&gt;</span>
+    <span class="hl-bracket">&lt;</span><span class="hl-tag">title</span><span class="hl-bracket">&gt;</span>My First Page<span class="hl-bracket">&lt;/</span><span class="hl-tag">title</span><span class="hl-bracket">&gt;</span>
+  <span class="hl-bracket">&lt;/</span><span class="hl-tag">head</span><span class="hl-bracket">&gt;</span>
+  <span class="hl-bracket">&lt;</span><span class="hl-tag">body</span><span class="hl-bracket">&gt;</span>
+    <span class="hl-comment">&lt;!-- This is a heading --&gt;</span>
+    <span class="hl-bracket">&lt;</span><span class="hl-tag">h1</span><span class="hl-bracket">&gt;</span>Hello, TechTicket!<span class="hl-bracket">&lt;/</span><span class="hl-tag">h1</span><span class="hl-bracket">&gt;</span>
+    
+    <span class="hl-comment">&lt;!-- This is a paragraph --&gt;</span>
+    <span class="hl-bracket">&lt;</span><span class="hl-tag">p</span><span class="hl-bracket">&gt;</span>I am learning how to build websites.<span class="hl-bracket">&lt;/</span><span class="hl-tag">p</span><span class="hl-bracket">&gt;</span>
+  <span class="hl-bracket">&lt;/</span><span class="hl-tag">body</span><span class="hl-bracket">&gt;</span>
+<span class="hl-bracket">&lt;/</span><span class="hl-tag">html</span><span class="hl-bracket">&gt;</span></code></pre>
+                </div>
+            </div>
+
+            <button class="collapsible-btn" onclick="toggleCollapsible('code-explain')">Step-by-Step Code Explanation</button>
+            <div id="code-explain" class="collapsible-content">
+                <p>Most tags in HTML come in pairs: an opening tag <code>&lt;tag&gt;</code> and a closing tag <code>&lt;/tag&gt;</code> with a forward slash.</p>
+                <ul>
+                    <li><code>&lt;!DOCTYPE html&gt;</code>: This tells the browser, "Hey, I am writing this in modern HTML5!"</li>
+                    <li><code>&lt;h1&gt;...&lt;/h1&gt;</code>: Stands for <strong>Heading 1</strong>. It makes the text very large and bold, like a newspaper headline.</li>
+                    <li><code>&lt;p&gt;...&lt;/p&gt;</code>: Stands for <strong>Paragraph</strong>. It creates a block of normal, readable text.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🏋️ Practice Exercises</h2>
+            <p>Copy the code from the example above into your code editor. Now, let's change it!</p>
+
+            <div class="exercise-box">
+                <h4>Exercise 1: The Tab Name</h4>
+                <p>Change the code so that the browser tab says "My Cool Website" instead of "My First Page".</p>
+                <button class="btn-hint" onclick="toggleHint('hint1')">💡 Show Hint</button>
+                <div id="hint1" class="hint-content">
+                    Look inside the <code>&lt;head&gt;</code> section. Change the text between the <code>&lt;title&gt;</code> tags!
+                </div>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 2: Introduce Yourself</h4>
+                <p>Change the main big heading so that instead of saying "Hello, TechTicket!", it says your actual name (Example: "Hello, I am Alex!").</p>
+                <button class="btn-hint" onclick="toggleHint('hint2')">💡 Show Hint</button>
+                <div id="hint2" class="hint-content">
+                    Look inside the <code>&lt;body&gt;</code> section. Find the <code>&lt;h1&gt;</code> tag and change the text inside it.
+                </div>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 3: Gamer Talk</h4>
+                <p>Add a brand new paragraph below the first one. In this new paragraph, write a sentence about your favorite video game.</p>
+                <button class="btn-hint" onclick="toggleHint('hint3')">💡 Show Hint</button>
+                <div id="hint3" class="hint-content">
+                    You need to write a new opening <code>&lt;p&gt;</code> tag, type your sentence, and then close it with a <code>&lt;/p&gt;</code> tag right before the <code>&lt;/body&gt;</code> tag.
+                </div>
+            </div>
+        </section>
+
+        <section class="card challenge-box">
+            <h2 style="color: var(--accent-pink); border-bottom-color: var(--accent-pink);">🔥 Mini Challenge</h2>
+            <p>Delete everything inside the <code>&lt;body&gt;</code> of your code, so it is totally empty. Now, try to build the content from scratch from memory!</p>
+            <p><strong>Goal:</strong> Create a page that contains your Name as a large heading, and a paragraph describing your favorite hobby.</p>
+            <button class="btn-hint" style="border-color: var(--accent-pink); color: var(--accent-pink);" onclick="toggleHint('hint4')">👀 Peek at the Solution Structure</button>
+            <div id="hint4" class="hint-content" style="border-left-color: var(--accent-pink);">
+                <pre style="background: transparent; padding: 0;"><code><span class="hl-bracket">&lt;</span><span class="hl-tag">body</span><span class="hl-bracket">&gt;</span>
+  <span class="hl-bracket">&lt;</span><span class="hl-tag">h1</span><span class="hl-bracket">&gt;</span>Sarah<span class="hl-bracket">&lt;/</span><span class="hl-tag">h1</span><span class="hl-bracket">&gt;</span>
+  <span class="hl-bracket">&lt;</span><span class="hl-tag">p</span><span class="hl-bracket">&gt;</span>My favorite hobby is playing basketball.<span class="hl-bracket">&lt;/</span><span class="hl-tag">p</span><span class="hl-bracket">&gt;</span>
+<span class="hl-bracket">&lt;/</span><span class="hl-tag">body</span><span class="hl-bracket">&gt;</span></code></pre>
+            </div>
+        </section>
+
+        <section class="card" style="border-left: 4px solid var(--success-color);">
+            <h2 style="color: var(--success-color); border-bottom-color: var(--success-color);">🏠 Homework Assignment</h2>
+            <p>Create a brand new HTML file from scratch! You are building a mini "About Me" page.</p>
+            <p>Your web page must include:</p>
+            <ul>
+                <li>Your name (using a heading).</li>
+                <li>Your favorite game (using a paragraph).</li>
+                <li>Your favorite food (using another paragraph).</li>
+            </ul>
+            <p>Save your file and open it in your web browser to see your amazing work!</p>
+        </section>
+
+        <section class="card">
+            <h2>📚 Session Summary</h2>
+            <ul>
+                <li>The <strong>Internet</strong> is a global network of connected computers.</li>
+                <li>A <strong>Server</strong> is a computer that stores website files and sends them to you when you request them.</li>
+                <li>A <strong>Web Browser</strong> (like Chrome) translates HTML code into the beautiful pages you see.</li>
+                <li><strong>HTML</strong> is the structural skeleton of a web page.</li>
+                <li>Every HTML page needs <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code> tags.</li>
+                <li>The <code>&lt;h1&gt;</code> tag creates big titles, and the <code>&lt;p&gt;</code> tag creates regular text paragraphs.</li>
+            </ul>
+        </section>
+
+        <div class="session-nav">
+            <a href="#" class="nav-btn disabled">⬅ Previous Session</a>
+            <a href="session2.html" class="nav-btn">Next Session ➡</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; TechTicket Academy — Educational material for TechTicket students only. Redistribution is not allowed.</p>
+    </footer>
+
+    <script>
+        // Toggle Hint Content
+        function toggleHint(id) {
+            const hint = document.getElementById(id);
+            if (hint.style.display === "block") {
+                hint.style.display = "none";
+            } else {
+                hint.style.display = "block";
+            }
+        }
+
+        // Toggle Collapsible Explanations
+        function toggleCollapsible(id) {
+            const content = document.getElementById(id);
+            const button = content.previousElementSibling;
+            
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                button.classList.remove("active");
+            } else {
+                content.style.display = "block";
+                button.classList.add("active");
+            }
+        }
+
+        // Copy Code Function
+        function copyCode(elementId, button) {
+            const codeElement = document.getElementById(elementId);
+            const textToCopy = codeElement.innerText;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Change button state
+                const originalText = button.innerHTML;
+                button.innerHTML = "Copied! ✓";
+                button.classList.add("copied");
+
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove("copied");
+                }, 2000);
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+                button.innerHTML = "Failed!";
+            });
+        }
+    </script>
+</body>
+</html>

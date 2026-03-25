@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTicket | Session 3 - Lists, Tables, and HTML Entities</title>
+    <link rel="icon" href="../logo.png" type="image/x-icon">
+    <style>
+        /* === VARIABLES & THEME === */
+        :root {
+            /* Colors */
+            --bg-base: #0b1120;
+            --bg-card: #1e293b;
+            --bg-code: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-cyan: #22d3ee;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --accent-yellow: #f59e0b;
+            --border-color: #334155;
+            
+            /* Typography */
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-code: 'Courier New', Courier, monospace;
+            
+            /* Sizing & Shadows */
+            --border-radius: 12px;
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 15px rgba(34, 211, 238, 0.2);
+        }
+
+        /* === GLOBAL RESET === */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* === TYPOGRAPHY === */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.3;
+            color: #ffffff;
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 0.5rem; text-align: center; }
+        h2 { font-size: 1.6rem; color: var(--accent-cyan); margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.3rem; color: var(--accent-blue); margin-top: 1.5rem; margin-bottom: 0.8rem; }
+        
+        p { margin-bottom: 1.2rem; }
+        ul, ol { margin-left: 2rem; margin-bottom: 1.2rem; }
+        li { margin-bottom: 0.5rem; }
+        
+        strong { color: var(--accent-cyan); }
+        em { color: var(--accent-yellow); font-style: normal; font-weight: bold; }
+
+        /* Inline Code */
+        code:not(pre code) {
+            background-color: rgba(34, 211, 238, 0.1);
+            color: var(--accent-cyan);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-code);
+            font-size: 0.9em;
+        }
+
+        /* === LAYOUT === */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* === HEADER === */
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(180deg, #0f172a 0%, var(--bg-base) 100%);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .logo-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-container img {
+            max-width: 250px;
+            height: auto;
+        }
+
+        .course-title {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        /* === CARDS (LEARNING SECTIONS) === */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-blue));
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #475569;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* === SVG DIAGRAMS === */
+        .diagram-box {
+            background-color: var(--bg-code);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: auto;
+        }
+
+        .diagram-box svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* === CODE BLOCKS === */
+        .code-window {
+            background-color: var(--bg-code);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin: 1.5rem 0;
+            overflow: hidden;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .code-header {
+            background-color: #0b1120;
+            padding: 0.6rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .mac-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .mac-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background-color: #ff5f56; }
+        .dot-yellow { background-color: #ffbd2e; }
+        .dot-green { background-color: #27c93f; }
+
+        .btn-copy {
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--text-muted);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        .btn-copy:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            background-color: rgba(34, 211, 238, 0.1);
+        }
+
+        .btn-copy.copied {
+            background-color: var(--accent-green);
+            color: #fff;
+            border-color: var(--accent-green);
+        }
+
+        pre {
+            padding: 1.5rem;
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        pre code {
+            font-family: var(--font-code);
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        /* Syntax Highlighting */
+        .tag { color: #ec4899; } /* Pink */
+        .attr { color: #f59e0b; } /* Yellow */
+        .val { color: #10b981; } /* Green */
+        .entity { color: #8b5cf6; font-weight: bold; } /* Purple */
+
+        /* === INTERACTIVE FEATURES === */
+        /* Collapsible Buttons */
+        .collapsible-btn {
+            background-color: transparent;
+            color: var(--accent-cyan);
+            border: none;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        .collapsible-btn::before {
+            content: '▶';
+            font-size: 0.8em;
+            transition: transform 0.2s;
+        }
+
+        .collapsible-btn.active::before {
+            transform: rotate(90deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 1rem;
+            background-color: rgba(15, 23, 42, 0.6);
+            border-left: 2px solid var(--accent-cyan);
+            border-radius: 0 0 8px 0;
+            margin-top: 0.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Exercise Boxes */
+        .exercise-box {
+            background-color: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .challenge-box {
+            background-color: rgba(139, 92, 246, 0.05);
+            border-left: 4px solid var(--accent-purple);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .btn-hint {
+            background-color: #0f172a;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-hint:hover {
+            background-color: #1e293b;
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .hint-content {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #0b1120;
+            border-radius: 6px;
+            border: 1px dashed var(--accent-cyan);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === NAVIGATION & FOOTER === */
+        .session-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-btn {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+            text-align: center;
+            flex: 1;
+            margin: 0 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--accent-blue);
+            color: #ffffff;
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            background-color: #090e17;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.5rem; }
+            .session-nav { flex-direction: column; gap: 1rem; }
+            .nav-btn { margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="../logo.png" alt="TechTicket Logo" class="logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+            <h2 id="logo-fallback" style="display:none; color: var(--accent-cyan); border: none; font-size: 2.5rem; letter-spacing: 2px;">TechTicket</h2>
+        </div>
+        <div class="course-title">HTML Fundamentals</div>
+        <h1>Session 3 — Lists, Tables, and HTML Entities</h1>
+    </header>
+
+    <main class="container">
+
+        <section class="card">
+            <h2>🎯 Session Overview</h2>
+            <p>Welcome to Session 3! In previous sessions, you learned how to add text, images, and links to your webpage. But what happens when you have a lot of data to show?</p>
+            <p>Today, we are going to learn how to organize information beautifully. You will learn how to:</p>
+            <ul>
+                <li>Create <strong>Unordered Lists</strong> (bullet points) and <strong>Ordered Lists</strong> (numbered lists).</li>
+                <li>Build <strong>Tables</strong> with neat rows and columns to display complex data.</li>
+                <li>Merge table cells together for advanced layouts.</li>
+                <li>Use <strong>HTML Entities</strong> to safely type special characters like <code>&lt;</code> or <code>&copy;</code> without breaking your code!</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>⏪ Quick Recap: Session 2</h2>
+            <p>Let's do a quick memory check. What did we learn last time?</p>
+            <ul>
+                <li><strong>HTML Elements</strong> are the building blocks, made of tags like <code>&lt;h1&gt;</code> and <code>&lt;p&gt;</code>.</li>
+                <li><strong>Attributes</strong> give extra instructions inside an opening tag (like <code>src="..."</code>).</li>
+                <li>We learned how to make clickable <strong>Links</strong> using <code>&lt;a href="..."&gt;</code>.</li>
+                <li>We added <strong>Images</strong> using the empty <code>&lt;img&gt;</code> tag!</li>
+            </ul>
+            <p>Now, let's learn how to put text and data into perfect order!</p>
+        </section>
+
+        <section class="card">
+            <h2>📝 Lists in HTML</h2>
+            <p>Lists are used everywhere on the web! You use them for navigation menus, top 10 game rankings, your favorite foods, or a daily to-do list. HTML gives us two main types of lists: <strong>Unordered</strong> and <strong>Ordered</strong>.</p>
+            
+            <h3>Unordered Lists (Bullet Points)</h3>
+            <p>We use Unordered Lists when the exact order of the items doesn't matter (like a grocery list). We use the <code>&lt;ul&gt;</code> tag for the main list box, and <code>&lt;li&gt;</code> (List Item) for every bullet point inside.</p>
+
+            <div class="diagram-box">
+                <svg width="400" height="180" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="20" width="360" height="140" rx="8" fill="none" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="30" y="45" font-family="monospace" font-size="16" font-weight="bold" fill="#22d3ee">&lt;ul&gt;</text>
+                    <text x="30" y="150" font-family="monospace" font-size="16" font-weight="bold" fill="#22d3ee">&lt;/ul&gt;</text>
+                    
+                    <rect x="60" y="55" width="300" height="25" rx="4" fill="#1e293b" stroke="#ec4899" stroke-width="1"/>
+                    <circle cx="80" cy="67.5" r="4" fill="#f8fafc"/>
+                    <text x="100" y="72" font-family="monospace" font-size="14" fill="#ec4899">&lt;li&gt;</text>
+                    <text x="145" y="72" font-family="sans-serif" font-size="14" fill="#f8fafc">Minecraft</text>
+                    <text x="230" y="72" font-family="monospace" font-size="14" fill="#ec4899">&lt;/li&gt;</text>
+
+                    <rect x="60" y="90" width="300" height="25" rx="4" fill="#1e293b" stroke="#ec4899" stroke-width="1"/>
+                    <circle cx="80" cy="102.5" r="4" fill="#f8fafc"/>
+                    <text x="100" y="107" font-family="monospace" font-size="14" fill="#ec4899">&lt;li&gt;</text>
+                    <text x="145" y="107" font-family="sans-serif" font-size="14" fill="#f8fafc">Roblox</text>
+                    <text x="205" y="107" font-family="monospace" font-size="14" fill="#ec4899">&lt;/li&gt;</text>
+                </svg>
+            </div>
+
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="mac-dots"><div class="mac-dot dot-red"></div><div class="mac-dot dot-yellow"></div><div class="mac-dot dot-green"></div></div>
+                    <button class="btn-copy" onclick="copyCode('code-ul', this)">Copy Code</button>
+                </div>
+<pre><code id="code-ul"><span class="tag">&lt;h3&gt;</span>My Favorite Games<span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Minecraft<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Roblox<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Fortnite<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></code></pre>
+            </div>
+
+            <h3>Ordered Lists (Numbers)</h3>
+            <p>When the order <em>does</em> matter (like a top 3 ranking or steps in a recipe), we use an <strong>Ordered List</strong>. All we change is the wrapper tag to <code>&lt;ol&gt;</code>!</p>
+
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="mac-dots"><div class="mac-dot dot-red"></div><div class="mac-dot dot-yellow"></div><div class="mac-dot dot-green"></div></div>
+                    <button class="btn-copy" onclick="copyCode('code-ol', this)">Copy Code</button>
+                </div>
+<pre><code id="code-ol"><span class="tag">&lt;h3&gt;</span>How to build a website:<span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;ol&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Learn HTML<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Learn CSS<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Build awesome pages!<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span></code></pre>
+            </div>
+            
+            <button class="collapsible-btn" onclick="toggleExplanation('explain-lists')">Step-by-Step Code Explanation</button>
+            <div id="explain-lists" class="collapsible-content">
+                <p>1. First, we write the wrapper tag: <code>&lt;ul&gt;</code> for bullets, or <code>&lt;ol&gt;</code> for numbers.</p>
+                <p>2. Inside the wrapper, we write an <code>&lt;li&gt;</code> (List Item) tag for every single item on our list.</p>
+                <p>3. Finally, we close the wrapper tag at the very end.</p>
+                <p><em>Note: Never put text directly inside the ul/ol tags without wrapping it in an li tag first!</em></p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>📊 Tables in HTML</h2>
+            <p>Lists are great for single items, but what if you have data that needs to be compared? Like a class schedule, or a player leaderboard showing Name, Level, and Score?</p>
+            <p>For this, we use <strong>Tables</strong> to organize data into rows and columns.</p>
+
+            <h3>Basic Table Structure</h3>
+            <p>Tables use four main tags working together:</p>
+            <ul>
+                <li><code>&lt;table&gt;</code>: The main wrapper holding everything.</li>
+                <li><code>&lt;tr&gt;</code>: <strong>T</strong>able <strong>R</strong>ow. This creates a horizontal row.</li>
+                <li><code>&lt;th&gt;</code>: <strong>T</strong>able <strong>H</strong>eader. Used in the first row for titles. Text here is bold and centered automatically!</li>
+                <li><code>&lt;td&gt;</code>: <strong>T</strong>able <strong>D</strong>ata. Used for the regular data cells.</li>
+            </ul>
+
+            <div class="diagram-box">
+                <svg width="500" height="240" viewBox="0 0 500 240" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="480" height="220" rx="8" fill="none" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="20" y="30" font-family="monospace" font-size="14" font-weight="bold" fill="#22d3ee">&lt;table border="1"&gt;</text>
+                    
+                    <rect x="30" y="45" width="440" height="45" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                    <text x="40" y="73" font-family="monospace" font-size="14" fill="#f59e0b">&lt;tr&gt;</text>
+                    
+                    <rect x="85" y="52" width="130" height="30" fill="#334155" stroke="#ec4899" stroke-width="1"/>
+                    <text x="95" y="72" font-family="monospace" font-size="12" fill="#ec4899">&lt;th&gt;</text>
+                    <text x="130" y="73" font-family="sans-serif" font-size="14" font-weight="bold" fill="#fff">Player</text>
+                    
+                    <rect x="225" y="52" width="130" height="30" fill="#334155" stroke="#ec4899" stroke-width="1"/>
+                    <text x="235" y="72" font-family="monospace" font-size="12" fill="#ec4899">&lt;th&gt;</text>
+                    <text x="270" y="73" font-family="sans-serif" font-size="14" font-weight="bold" fill="#fff">Score</text>
+
+                    <rect x="30" y="100" width="440" height="45" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                    <text x="40" y="128" font-family="monospace" font-size="14" fill="#f59e0b">&lt;tr&gt;</text>
+                    
+                    <rect x="85" y="107" width="130" height="30" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+                    <text x="95" y="127" font-family="monospace" font-size="12" fill="#10b981">&lt;td&gt;</text>
+                    <text x="135" y="128" font-family="sans-serif" font-size="14" fill="#cbd5e1">Alex</text>
+                    
+                    <rect x="225" y="107" width="130" height="30" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+                    <text x="235" y="127" font-family="monospace" font-size="12" fill="#10b981">&lt;td&gt;</text>
+                    <text x="275" y="128" font-family="sans-serif" font-size="14" fill="#cbd5e1">9500</text>
+
+                    <rect x="30" y="155" width="440" height="45" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                    <text x="40" y="183" font-family="monospace" font-size="14" fill="#f59e0b">&lt;tr&gt;</text>
+                    
+                    <rect x="85" y="162" width="130" height="30" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+                    <text x="95" y="182" font-family="monospace" font-size="12" fill="#10b981">&lt;td&gt;</text>
+                    <text x="135" y="183" font-family="sans-serif" font-size="14" fill="#cbd5e1">Sarah</text>
+                    
+                    <rect x="225" y="162" width="130" height="30" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+                    <text x="235" y="182" font-family="monospace" font-size="12" fill="#10b981">&lt;td&gt;</text>
+                    <text x="275" y="183" font-family="sans-serif" font-size="14" fill="#cbd5e1">8200</text>
+                </svg>
+            </div>
+
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="mac-dots"><div class="mac-dot dot-red"></div><div class="mac-dot dot-yellow"></div><div class="mac-dot dot-green"></div></div>
+                    <button class="btn-copy" onclick="copyCode('code-table', this)">Copy Code</button>
+                </div>
+<pre><code id="code-table"><span class="comment">&lt;!-- border="1" makes the grid lines visible! --&gt;</span>
+<span class="tag">&lt;table</span> <span class="attr">border</span>=<span class="val">"1"</span><span class="tag">&gt;</span>
+  <span class="comment">&lt;!-- First Row: Headers --&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Player<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Score<span class="tag">&lt;/th&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+  
+  <span class="comment">&lt;!-- Second Row: Data --&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;td&gt;</span>Alex<span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;td&gt;</span>9500<span class="tag">&lt;/td&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+<span class="tag">&lt;/table&gt;</span></code></pre>
+            </div>
+            
+            <button class="collapsible-btn" onclick="toggleExplanation('explain-table')">Step-by-Step Code Explanation</button>
+            <div id="explain-table" class="collapsible-content">
+                <p>1. <code>&lt;table border="1"&gt;</code>: We start the table and add an attribute to show borders.</p>
+                <p>2. <code>&lt;tr&gt;</code>: We start the first row.</p>
+                <p>3. <code>&lt;th&gt;</code>: We add two headers inside the row (Player and Score).</p>
+                <p>4. <code>&lt;/tr&gt;</code>: We close the first row. The next row will appear below it.</p>
+                <p>5. <code>&lt;tr&gt;</code>: We start the second row.</p>
+                <p>6. <code>&lt;td&gt;</code>: We add data cells. Important: The first <code>td</code> lines up with the first <code>th</code>! "Alex" goes under "Player".</p>
+                <p>7. We close the table at the very end.</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🧩 More Complex Tables</h2>
+            <p>Sometimes you need a title cell to stretch across multiple columns. We do this using an attribute called <code>colspan</code> (Column Span).</p>
+
+            <div class="diagram-box">
+                <svg width="400" height="150" viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="20" width="300" height="40" fill="#334155" stroke="#22d3ee" stroke-width="2"/>
+                    <text x="200" y="45" font-family="sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">&lt;th colspan="2"&gt; Top Players</text>
+                    
+                    <rect x="50" y="60" width="150" height="40" fill="#0f172a" stroke="#22d3ee" stroke-width="1"/>
+                    <text x="125" y="85" font-family="sans-serif" font-size="14" fill="#cbd5e1" text-anchor="middle">Alex</text>
+                    
+                    <rect x="200" y="60" width="150" height="40" fill="#0f172a" stroke="#22d3ee" stroke-width="1"/>
+                    <text x="275" y="85" font-family="sans-serif" font-size="14" fill="#cbd5e1" text-anchor="middle">Sarah</text>
+                </svg>
+            </div>
+
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="mac-dots"><div class="mac-dot dot-red"></div><div class="mac-dot dot-yellow"></div><div class="mac-dot dot-green"></div></div>
+                    <button class="btn-copy" onclick="copyCode('code-colspan', this)">Copy Code</button>
+                </div>
+<pre><code id="code-colspan"><span class="tag">&lt;table</span> <span class="attr">border</span>=<span class="val">"1"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="comment">&lt;!-- This cell stretches across 2 columns! --&gt;</span>
+    <span class="tag">&lt;th</span> <span class="attr">colspan</span>=<span class="val">"2"</span><span class="tag">&gt;</span>Top Players<span class="tag">&lt;/th&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;td&gt;</span>Alex<span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;td&gt;</span>Sarah<span class="tag">&lt;/td&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+<span class="tag">&lt;/table&gt;</span></code></pre>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🔣 HTML Entities (Special Characters)</h2>
+            <p>HTML uses angle brackets <code>&lt;</code> and <code>&gt;</code> to create tags. But what if you actually want to write a math equation on your website like "10 &lt; 20"?</p>
+            <p>If you type <code>&lt;</code>, the browser might think you are starting an HTML tag! To fix this, we use <strong>HTML Entities</strong>. An entity is a special code that starts with an ampersand <code>&amp;</code> and ends with a semicolon <code>;</code>.</p>
+
+            <table style="width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 1.5rem; background: var(--code-bg); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color);">
+                <tr style="background: #1e293b;">
+                    <th style="padding: 10px; border-bottom: 1px solid var(--border-color);">Character</th>
+                    <th style="padding: 10px; border-bottom: 1px solid var(--border-color);">What it means</th>
+                    <th style="padding: 10px; border-bottom: 1px solid var(--border-color);">Entity Code to type</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);">&lt;</td>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);">Less than</td>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);"><code class="entity">&amp;lt;</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);">&gt;</td>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);">Greater than</td>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);"><code class="entity">&amp;gt;</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);">&amp;</td>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);">Ampersand</td>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);"><code class="entity">&amp;amp;</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);">©</td>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);">Copyright</td>
+                    <td style="padding: 10px; border-bottom: 1px solid var(--border-color);"><code class="entity">&amp;copy;</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">[Space]</td>
+                    <td style="padding: 10px;">Extra blank space</td>
+                    <td style="padding: 10px;"><code class="entity">&amp;nbsp;</code></td>
+                </tr>
+            </table>
+
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="mac-dots"><div class="mac-dot dot-red"></div><div class="mac-dot dot-yellow"></div><div class="mac-dot dot-green"></div></div>
+                    <button class="btn-copy" onclick="copyCode('code-entities', this)">Copy Code</button>
+                </div>
+<pre><code id="code-entities"><span class="tag">&lt;p&gt;</span>The math rule is: 10 <span class="entity">&amp;lt;</span> 20<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p&gt;</span><span class="entity">&amp;copy;</span> 2026 TechTicket Academy<span class="tag">&lt;/p&gt;</span></code></pre>
+            </div>
+            
+            <p><em>Pro Tip: If you type 10 spaces in HTML using the spacebar, the browser ignores them and only shows 1! If you want a big gap, you have to use <code>&amp;nbsp;</code> (Non-Breaking Space) multiple times.</em></p>
+        </section>
+
+        <section class="card">
+            <h2>🏋️ Practice Exercises</h2>
+            <p>Open your code editor and let's get organized! Create a file named <code>practice3.html</code>.</p>
+
+            <div class="exercise-box">
+                <h4>Exercise 1: Top 3 Games</h4>
+                <p>Create an <strong>unordered list</strong> showing your top 3 favorite video games.</p>
+                <button class="btn-hint" onclick="toggleHint('hint1')">💡 Show Hint</button>
+                <div id="hint1" class="hint-content">
+                    Remember, unordered lists use the <code>&lt;ul&gt;</code> wrapper, and every item needs an <code>&lt;li&gt;</code> tag!
+                </div>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 2: Daily Routine</h4>
+                <p>Create an <strong>ordered list</strong> showing 3 things you do every morning in order (like Wake up, Eat breakfast, Go to school).</p>
+                <button class="btn-hint" onclick="toggleHint('hint2')">💡 Show Hint</button>
+                <div id="hint2" class="hint-content">
+                    Change the wrapper from a <code>ul</code> to an <code>&lt;ol&gt;</code> to make numbers appear instead of bullets!
+                </div>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 3: Simple Profile Table</h4>
+                <p>Create a simple table with 1 row of headers (Name, Age, Game) and 1 row of data filling in your own information. Don't forget <code>border="1"</code>.</p>
+                <button class="btn-hint" onclick="toggleHint('hint3')">💡 Show Hint</button>
+                <div id="hint3" class="hint-content">
+                    You will need one <code>&lt;table&gt;</code>, two <code>&lt;tr&gt;</code> tags, three <code>&lt;th&gt;</code> tags in the first row, and three <code>&lt;td&gt;</code> tags in the second!
+                </div>
+            </div>
+        </section>
+
+        <section class="card challenge-box">
+            <h2 style="color: var(--accent-purple); border-bottom-color: var(--accent-purple);">🔥 Mini Challenge: The Game Hub Table</h2>
+            <p>Let's combine tables and attributes into one advanced grid.</p>
+            <p>Create a table showing Game Ratings. It must include:</p>
+            <ol>
+                <li>A top header row that uses <strong><code>colspan="3"</code></strong> to span the whole width, saying "Game Rankings".</li>
+                <li>A second row with three headers: "Game Name", "Rating", and "Platform".</li>
+                <li>Two rows of data filling in your favorite games.</li>
+            </ol>
+            <button class="btn-hint" style="border-color: var(--accent-purple); color: #fff; background: var(--accent-purple);" onclick="toggleHint('hint-challenge')">👀 Peek at the Structure</button>
+            <div id="hint-challenge" class="hint-content" style="border-color: var(--accent-purple);">
+<pre style="background: transparent; padding: 0;"><code><span class="tag">&lt;table</span> <span class="attr">border</span>=<span class="val">"1"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;th</span> <span class="attr">colspan</span>=<span class="val">"3"</span><span class="tag">&gt;</span>Game Rankings<span class="tag">&lt;/th&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Name<span class="tag">&lt;/th&gt;</span><span class="tag">&lt;th&gt;</span>Rating<span class="tag">&lt;/th&gt;</span><span class="tag">&lt;th&gt;</span>Platform<span class="tag">&lt;/th&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+  <span class="comment">&lt;!-- Add your data rows here! --&gt;</span>
+<span class="tag">&lt;/table&gt;</span></code></pre>
+            </div>
+        </section>
+
+        <section class="card" style="border-left: 4px solid var(--accent-green); background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), transparent);">
+            <h2 style="color: var(--accent-green); border-bottom-color: var(--accent-green);">🏠 Homework Assignment</h2>
+            <p>Your task before the next session is to build a complete dashboard page.</p>
+            <p>The webpage must include:</p>
+            <ul>
+                <li>A main heading.</li>
+                <li>A <strong>list</strong> of hobbies.</li>
+                <li>A <strong>table</strong> of your favorite games with at least 3 rows of data.</li>
+                <li>At least one <strong>HTML Entity</strong> used somewhere on the page (like a copyright symbol at the bottom).</li>
+            </ul>
+            <p>Save it as <code>dashboard.html</code> and review it in your browser!</p>
+        </section>
+
+        <section class="card">
+            <h2>📚 Session Summary</h2>
+            <ul>
+                <li><strong>Lists</strong> organize items neatly. Use <code>&lt;ul&gt;</code> for bullet points and <code>&lt;ol&gt;</code> for numbers.</li>
+                <li>Always put individual items inside <code>&lt;li&gt;</code> (List Item) tags!</li>
+                <li><strong>Tables (<code>&lt;table&gt;</code>)</strong> organize data into a grid.</li>
+                <li>Tables are built using Rows (<code>&lt;tr&gt;</code>). Inside the rows, we use Headers (<code>&lt;th&gt;</code>) for titles, and Data cells (<code>&lt;td&gt;</code>) for information.</li>
+                <li>Use <strong>colspan</strong> to merge columns together.</li>
+                <li><strong>HTML Entities</strong> let us type special symbols like <code>&amp;lt;</code> for &lt; or <code>&amp;copy;</code> for &copy;.</li>
+            </ul>
+        </section>
+
+        <div class="session-nav">
+            <a href="session2.html" class="nav-btn">⬅ Previous Session</a>
+            <a href="session4.html" class="nav-btn">Next Session ➡</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; TechTicket Academy — Educational material for TechTicket students only. Redistribution is not allowed.</p>
+    </footer>
+
+    <script>
+        // Copy Code Functionality
+        function copyCode(elementId, button) {
+            const codeBlock = document.getElementById(elementId);
+            const textToCopy = codeBlock.innerText;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = "Copied! ✓";
+                button.classList.add("copied");
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove("copied");
+                }, 2000);
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+                button.innerHTML = "Error";
+            });
+        }
+
+        // Toggle Hint Content
+        function toggleHint(hintId) {
+            const hintElement = document.getElementById(hintId);
+            if (hintElement.style.display === "block") {
+                hintElement.style.display = "none";
+            } else {
+                hintElement.style.display = "block";
+            }
+        }
+
+        // Toggle Collapsible Explanations
+        function toggleCollapse(explainId) {
+            const content = document.getElementById(explainId);
+            const button = content.previousElementSibling;
+            
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                button.classList.remove("active");
+            } else {
+                content.style.display = "block";
+                button.classList.add("active");
+            }
+        }
+    </script>
+</body>
+</html>

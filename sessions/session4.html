@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTicket | Session 4 — HTML Layout, div, span, and Semantic HTML</title>
+    <link rel="icon" href="../logo.png" type="image/x-icon">
+    <style>
+        /* === CSS VARIABLES === */
+        :root {
+            --bg-color: #0b1121;
+            --card-bg: #151e32;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-cyan: #06b6d4;
+            --accent-blue: #3b82f6;
+            --accent-glow: rgba(6, 182, 212, 0.4);
+            --code-bg: #05080f;
+            --btn-bg: #1e293b;
+            --btn-hover: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        /* === GLOBAL RESET & TYPOGRAPHY === */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        h1 { font-size: 2.2rem; text-align: center; }
+        h2 { 
+            font-size: 1.6rem; 
+            color: var(--accent-cyan); 
+            border-bottom: 2px solid var(--btn-bg); 
+            padding-bottom: 0.5rem; 
+            margin-top: 1rem; 
+        }
+        h3 { font-size: 1.3rem; color: var(--accent-blue); margin-top: 1.5rem; }
+
+        p { margin-bottom: 1.2rem; }
+        ul, ol { margin-bottom: 1.2rem; margin-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+
+        /* === LAYOUT === */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(180deg, #070b14 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid var(--btn-bg);
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .course-title {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* === CARDS === */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--btn-bg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+            border-color: var(--accent-blue);
+        }
+
+        /* === DIAGRAMS === */
+        .diagram-container {
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed var(--accent-blue);
+            overflow-x: auto;
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* === CODE BLOCKS === */
+        .code-editor {
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border: 1px solid var(--btn-bg);
+            overflow: hidden;
+        }
+
+        .code-header {
+            background-color: #0f172a;
+            padding: 0.6rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--btn-bg);
+        }
+
+        .mac-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background-color: #ef4444; }
+        .dot-yellow { background-color: #f59e0b; }
+        .dot-green { background-color: #10b981; }
+
+        .btn-copy {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--text-muted);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        .btn-copy:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            background-color: rgba(6, 182, 212, 0.1);
+        }
+
+        .btn-copy.copied {
+            background-color: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Syntax Highlighting */
+        .h-tag { color: #ec4899; } /* Pink */
+        .h-attr { color: #f59e0b; } /* Yellow */
+        .h-str { color: #10b981; } /* Green */
+        .h-txt { color: #e2e8f0; } /* White */
+        .h-cmt { color: #64748b; font-style: italic; } /* Gray */
+
+        /* === INTERACTIVE FEATURES === */
+        .btn-hint {
+            background-color: var(--btn-bg);
+            color: var(--text-main);
+            border: 1px solid var(--accent-cyan);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-hint:hover {
+            background-color: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .hint-content {
+            display: none;
+            background-color: rgba(6, 182, 212, 0.1);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 6px 6px 0;
+            animation: fadeIn 0.4s;
+        }
+
+        .collapsible-btn {
+            background: none;
+            border: none;
+            color: var(--accent-blue);
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+
+        .collapsible-btn::before {
+            content: '▶';
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        .collapsible-btn.active::before {
+            transform: rotate(90deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 1rem;
+            background-color: #0f172a;
+            border-radius: 8px;
+            margin-top: 0.8rem;
+            border: 1px solid var(--btn-bg);
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === PRACTICE EXERCISE BOXES === */
+        .exercise-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(15, 23, 42, 0) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .challenge-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(15, 23, 42, 0) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        /* === NAVIGATION === */
+        .session-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--btn-bg);
+        }
+
+        .nav-btn {
+            background-color: var(--btn-bg);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            border: 1px solid var(--btn-bg);
+            transition: all 0.2s;
+            text-align: center;
+            flex: 1;
+            margin: 0 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--accent-blue);
+            color: #fff;
+        }
+
+        /* === FOOTER === */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            background-color: #05080f;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--btn-bg);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .session-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-btn {
+                margin: 0;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="../logo.png" alt="TechTicket Logo" class="logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+            <h2 id="logo-fallback" style="display:none; color: var(--accent-cyan); border: none; font-size: 2.5rem; letter-spacing: 2px;">TechTicket</h2>
+        </div>
+        <div class="course-title">HTML Fundamentals</div>
+        <h1>Session 4 — HTML Layout, div, span, and Semantic HTML</h1>
+    </header>
+
+    <div class="container">
+
+        <section class="card">
+            <h2>🎯 Session Overview</h2>
+            <p>Welcome to your final session of HTML Fundamentals! You've learned how to add text, images, links, lists, and tables. But real websites don't just stack everything in one giant column. They have headers, footers, and sidebars.</p>
+            <p>Today, you will learn how to structure a professional web page. You will learn:</p>
+            <ul>
+                <li>How web page layouts are designed.</li>
+                <li>How to use <strong><code>&lt;div&gt;</code></strong> (the invisible box) to group content.</li>
+                <li>How to use <strong><code>&lt;span&gt;</code></strong> and formatting tags to style specific words.</li>
+                <li>What <strong>Semantic HTML</strong> is and why smart programmers use it.</li>
+                <li>How to build your very own mini Personal Website!</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>⏪ Quick Review: Session 3</h2>
+            <p>Before we dive into layouts, let's remember what we learned about organizing data:</p>
+            <ul>
+                <li>We use <code>&lt;ul&gt;</code> and <code>&lt;ol&gt;</code> with <code>&lt;li&gt;</code> to create lists.</li>
+                <li>We use <code>&lt;table&gt;</code>, <code>&lt;tr&gt;</code>, <code>&lt;th&gt;</code>, and <code>&lt;td&gt;</code> to build grids for data.</li>
+                <li>We use <strong>HTML Entities</strong> (like <code>&amp;lt;</code>) to type special symbols without breaking our code.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>🏗️ Page Layout Concept</h2>
+            <p>Think about your favorite website, like YouTube or a gaming wiki. Everything is divided into neat, organized sections.</p>
+            <p>Usually, a website is split into these main parts:</p>
+            <ul>
+                <li><strong>Header:</strong> At the very top. Contains the logo and title.</li>
+                <li><strong>Navigation:</strong> The menu links (Home, About, Contact).</li>
+                <li><strong>Main Content:</strong> The videos, articles, or games in the middle.</li>
+                <li><strong>Footer:</strong> The very bottom part with copyright text and extra links.</li>
+            </ul>
+
+            <div class="diagram-container">
+                <svg viewBox="0 0 400 350" width="100%">
+                    <rect x="10" y="10" width="380" height="330" rx="8" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+                    <rect x="20" y="20" width="360" height="50" rx="4" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="200" y="50" fill="#3b82f6" font-weight="bold" font-family="sans-serif" text-anchor="middle">HEADER</text>
+                    <rect x="20" y="80" width="360" height="30" rx="4" fill="#06b6d4" fill-opacity="0.2" stroke="#06b6d4" stroke-width="2"/>
+                    <text x="200" y="100" fill="#06b6d4" font-weight="bold" font-family="sans-serif" text-anchor="middle">NAVIGATION</text>
+                    <rect x="20" y="120" width="360" height="160" rx="4" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="2"/>
+                    <text x="200" y="205" fill="#10b981" font-weight="bold" font-family="sans-serif" text-anchor="middle">MAIN CONTENT</text>
+                    <rect x="20" y="290" width="360" height="40" rx="4" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="2"/>
+                    <text x="200" y="315" fill="#f59e0b" font-weight="bold" font-family="sans-serif" text-anchor="middle">FOOTER</text>
+                </svg>
+            </div>
+            <p>How do we build these boxes in HTML? We use a tag called <code>div</code>!</p>
+        </section>
+
+        <section class="card">
+            <h2>📦 The <code>&lt;div&gt;</code> Element</h2>
+            <p>The <code>&lt;div&gt;</code> element stands for <strong>Division</strong>. It is an invisible container used to group other HTML elements together.</p>
+            <p>Imagine a <code>&lt;div&gt;</code> as an empty cardboard box. You can put headings, paragraphs, and images inside that box to keep them all together. This makes it super easy to style sections later using CSS!</p>
+
+            <div class="code-editor">
+                <div class="code-header">
+                    <div class="mac-dots">
+                        <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                    </div>
+                    <button class="btn-copy" onclick="copyCode('code-div', this)">Copy Code</button>
+                </div>
+<pre id="code-div"><code><span class="h-cmt">&lt;!-- This div groups the "About Me" section together --&gt;</span>
+<span class="h-tag">&lt;div&gt;</span>
+  <span class="h-tag">&lt;h2&gt;</span><span class="h-txt">About Me</span><span class="h-tag">&lt;/h2&gt;</span>
+  <span class="h-tag">&lt;p&gt;</span><span class="h-txt">My name is Alex and I love coding.</span><span class="h-tag">&lt;/p&gt;</span>
+<span class="h-tag">&lt;/div&gt;</span>
+
+<span class="h-cmt">&lt;!-- This div groups the "Hobbies" section --&gt;</span>
+<span class="h-tag">&lt;div&gt;</span>
+  <span class="h-tag">&lt;h2&gt;</span><span class="h-txt">My Hobbies</span><span class="h-tag">&lt;/h2&gt;</span>
+  <span class="h-tag">&lt;ul&gt;</span>
+    <span class="h-tag">&lt;li&gt;</span><span class="h-txt">Gaming</span><span class="h-tag">&lt;/li&gt;</span>
+    <span class="h-tag">&lt;li&gt;</span><span class="h-txt">Skateboarding</span><span class="h-tag">&lt;/li&gt;</span>
+  <span class="h-tag">&lt;/ul&gt;</span>
+<span class="h-tag">&lt;/div&gt;</span></code></pre>
+            </div>
+            
+            <button class="collapsible-btn" onclick="toggleExplanation('exp-div')">Step-by-Step Code Explanation</button>
+            <div id="exp-div" class="collapsible-content">
+                <p>1. We open the first <code>&lt;div&gt;</code>. Everything after this is "inside the box".</p>
+                <p>2. We add an <code>h2</code> and a <code>p</code> element.</p>
+                <p>3. We close the box with <code>&lt;/div&gt;</code>. The "About Me" section is complete.</p>
+                <p>4. We create a second, separate <code>&lt;div&gt;</code> for the Hobbies list. Now the two sections are cleanly separated!</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🖌️ The <code>&lt;span&gt;</code> and Formatting Elements</h2>
+            <p>A <code>&lt;div&gt;</code> is a "Block" element. It stacks like blocks on top of each other. But what if you want to highlight just <em>one specific word</em> inside a paragraph without breaking it onto a new line?</p>
+            <p>For this, we use <strong>Inline Elements</strong> like <code>&lt;span&gt;</code>.</p>
+            <p>A <code>&lt;span&gt;</code> is a mini-container for text. By itself, it does nothing, but it allows you to target specific words. HTML also gives us built-in inline formatting tags:</p>
+            <ul>
+                <li><code>&lt;b&gt;</code> makes text <b>bold</b>.</li>
+                <li><code>&lt;i&gt;</code> makes text <i>italic</i>.</li>
+                <li><code>&lt;u&gt;</code> makes text <u>underlined</u>.</li>
+                <li><code>&lt;mark&gt;</code> makes text <mark>highlighted</mark>.</li>
+            </ul>
+
+            <div class="code-editor">
+                <div class="code-header">
+                    <div class="mac-dots">
+                        <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                    </div>
+                    <button class="btn-copy" onclick="copyCode('code-span', this)">Copy Code</button>
+                </div>
+<pre id="code-span"><code><span class="h-tag">&lt;p&gt;</span><span class="h-txt">My favorite color is </span><span class="h-tag">&lt;span</span> <span class="h-attr">style</span>=<span class="h-str">"color: blue;"</span><span class="h-tag">&gt;</span><span class="h-txt">blue</span><span class="h-tag">&lt;/span&gt;</span><span class="h-txt">.</span><span class="h-tag">&lt;/p&gt;</span>
+
+<span class="h-tag">&lt;p&gt;</span><span class="h-txt">Warning: Do </span><span class="h-tag">&lt;b&gt;</span><span class="h-txt">NOT</span><span class="h-tag">&lt;/b&gt;</span><span class="h-txt"> press the </span><span class="h-tag">&lt;mark&gt;</span><span class="h-txt">red button</span><span class="h-tag">&lt;/mark&gt;</span><span class="h-txt">!</span><span class="h-tag">&lt;/p&gt;</span></code></pre>
+            </div>
+            
+            <div class="diagram-container" style="flex-direction: column; gap: 1rem;">
+                <h4 style="color: var(--text-muted); margin-bottom: 10px;">Block vs Inline</h4>
+                <svg viewBox="0 0 500 120" width="100%">
+                    <rect x="10" y="10" width="480" height="40" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="250" y="35" fill="#3b82f6" font-family="monospace" text-anchor="middle">&lt;div&gt; takes the whole width (Block)</text>
+                    
+                    <rect x="10" y="70" width="480" height="40" fill="#0b1121"/>
+                    <text x="15" y="95" fill="#e2e8f0" font-family="sans-serif">Here is a sentence with </text>
+                    <rect x="180" y="75" width="140" height="30" fill="#1e293b" stroke="#ec4899" stroke-width="2"/>
+                    <text x="250" y="95" fill="#ec4899" font-family="monospace" text-anchor="middle">&lt;span&gt;inline&lt;/span&gt;</text>
+                    <text x="325" y="95" fill="#e2e8f0" font-family="sans-serif"> text inside.</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🧠 Semantic HTML Elements</h2>
+            <p>Using <code>&lt;div&gt;</code> for everything works, but it makes the code hard to read. Imagine opening a document and seeing 50 <code>&lt;div&gt;</code> tags. You wouldn't know which one is the header and which is the footer!</p>
+            <p><strong>Semantic HTML</strong> solves this. "Semantic" means "having meaning." Instead of using blank <code>&lt;div&gt;</code> boxes, we use tags that describe exactly what is inside them.</p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="flex: 1; min-width: 200px; background: rgba(34, 211, 238, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-cyan);">
+                    <strong><code>&lt;header&gt;</code></strong>: Replaces the top div.
+                </div>
+                <div style="flex: 1; min-width: 200px; background: rgba(34, 211, 238, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-cyan);">
+                    <strong><code>&lt;nav&gt;</code></strong>: Holds your navigation links.
+                </div>
+                <div style="flex: 1; min-width: 200px; background: rgba(34, 211, 238, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-cyan);">
+                    <strong><code>&lt;main&gt;</code></strong>: Holds the primary content.
+                </div>
+                <div style="flex: 1; min-width: 200px; background: rgba(34, 211, 238, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-cyan);">
+                    <strong><code>&lt;footer&gt;</code></strong>: Replaces the bottom div.
+                </div>
+            </div>
+
+            <div class="code-editor">
+                <div class="code-header">
+                    <div class="mac-dots">
+                        <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                    </div>
+                    <button class="btn-copy" onclick="copyCode('code-semantic', this)">Copy Code</button>
+                </div>
+<pre id="code-semantic"><code><span class="h-tag">&lt;body&gt;</span>
+  <span class="h-tag">&lt;header&gt;</span>
+    <span class="h-tag">&lt;h1&gt;</span><span class="h-txt">Welcome to My Website</span><span class="h-tag">&lt;/h1&gt;</span>
+  <span class="h-tag">&lt;/header&gt;</span>
+
+  <span class="h-tag">&lt;main&gt;</span>
+    <span class="h-tag">&lt;section&gt;</span>
+      <span class="h-tag">&lt;h2&gt;</span><span class="h-txt">About Me</span><span class="h-tag">&lt;/h2&gt;</span>
+      <span class="h-tag">&lt;p&gt;</span><span class="h-txt">I am a programmer!</span><span class="h-tag">&lt;/p&gt;</span>
+    <span class="h-tag">&lt;/section&gt;</span>
+  <span class="h-tag">&lt;/main&gt;</span>
+
+  <span class="h-tag">&lt;footer&gt;</span>
+    <span class="h-tag">&lt;p&gt;</span><span class="h-txt">© 2026 TechTicket</span><span class="h-tag">&lt;/p&gt;</span>
+  <span class="h-tag">&lt;/footer&gt;</span>
+<span class="h-tag">&lt;/body&gt;</span></code></pre>
+            </div>
+            <p>Using semantic tags makes your code cleaner, helps search engines (like Google) understand your site, and makes it accessible for screen readers!</p>
+        </section>
+
+        <section class="card">
+            <h2>🏋️ Practice Exercises</h2>
+            <p>Open your code editor. Let's put your new layout skills to the test!</p>
+
+            <div class="exercise-box">
+                <h4>Exercise 1: Top and Bottom</h4>
+                <p>Create a blank HTML page. Use semantic tags to create a <code>&lt;header&gt;</code> with an `h1` title, and a <code>&lt;footer&gt;</code> with a simple copyright paragraph. Leave the middle blank for now.</p>
+                <button class="btn-hint" onclick="toggleHint('hint1')">💡 Show Hint</button>
+                <div id="hint1" class="hint-content">
+                    Put the <code>&lt;header&gt;</code> directly below the opening <code>&lt;body&gt;</code> tag, and the <code>&lt;footer&gt;</code> right above the closing <code>&lt;/body&gt;</code> tag.
+                </div>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 2: Building Sections</h4>
+                <p>In the middle of your page (between header and footer), use two <code>&lt;div&gt;</code> containers. Make the first div an "About Me" section, and the second div a "My Hobbies" section.</p>
+                <button class="btn-hint" onclick="toggleHint('hint2')">💡 Show Hint</button>
+                <div id="hint2" class="hint-content">
+                    <code>&lt;div&gt; &lt;h2&gt;About Me&lt;/h2&gt; &lt;p&gt;...&lt;/p&gt; &lt;/div&gt;</code>
+                </div>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 3: Make it Pop!</h4>
+                <p>Inside your "About Me" paragraph, use the <code>&lt;b&gt;</code> tag to make your name bold, and use the <code>&lt;mark&gt;</code> tag to highlight your favorite word.</p>
+                <button class="btn-hint" onclick="toggleHint('hint3')">💡 Show Hint</button>
+                <div id="hint3" class="hint-content">
+                    <code>&lt;p&gt;My name is &lt;b&gt;Alex&lt;/b&gt; and I &lt;mark&gt;love&lt;/mark&gt; gaming.&lt;/p&gt;</code>
+                </div>
+            </div>
+        </section>
+
+        <section class="card challenge-box">
+            <h2 style="color: var(--warning); border-color: var(--warning);">🚀 Final Mini Project: Personal Website</h2>
+            <p>This is it! Time to use everything you've learned in the course to build a complete, properly structured personal website.</p>
+            <p>Your page must include all of the following in this order:</p>
+            <ol>
+                <li>A <strong><code>&lt;header&gt;</code></strong> with your name in an <code>&lt;h1&gt;</code>.</li>
+                <li>A <strong><code>&lt;main&gt;</code></strong> container that holds everything else.</li>
+                <li>An "About Me" <strong><code>&lt;section&gt;</code></strong> with a paragraph.</li>
+                <li>A "My Favorites" <strong><code>&lt;section&gt;</code></strong> containing an Unordered List (<code>&lt;ul&gt;</code>) of your favorite things.</li>
+                <li>An <strong><code>&lt;img&gt;</code></strong> of something you like (a game, animal, sport).</li>
+                <li>A <strong><code>&lt;footer&gt;</code></strong> with a copyright symbol (<code>&amp;copy;</code>) and the current year.</li>
+            </ol>
+            
+            <button class="btn-hint" style="border-color: var(--warning); color: var(--warning);" onclick="toggleHint('hint4')">👀 See Project Structure Code</button>
+            <div id="hint4" class="hint-content" style="border-color: var(--warning);">
+<pre style="background: transparent; padding: 0; margin: 0; font-size: 0.9rem;"><code><span class="h-tag">&lt;body&gt;</span>
+  <span class="h-tag">&lt;header&gt;</span>
+    <span class="h-tag">&lt;h1&gt;</span><span class="h-txt">Welcome to Sarah's World</span><span class="h-tag">&lt;/h1&gt;</span>
+  <span class="h-tag">&lt;/header&gt;</span>
+
+  <span class="h-tag">&lt;main&gt;</span>
+    <span class="h-tag">&lt;section&gt;</span>
+      <span class="h-tag">&lt;h2&gt;</span><span class="h-txt">About Me</span><span class="h-tag">&lt;/h2&gt;</span>
+      <span class="h-tag">&lt;p&gt;</span><span class="h-txt">I am learning </span><span class="h-tag">&lt;b&gt;</span><span class="h-txt">HTML</span><span class="h-tag">&lt;/b&gt;</span><span class="h-txt"> at TechTicket!</span><span class="h-tag">&lt;/p&gt;</span>
+    <span class="h-tag">&lt;/section&gt;</span>
+    
+    <span class="h-tag">&lt;section&gt;</span>
+      <span class="h-tag">&lt;h2&gt;</span><span class="h-txt">My Favorites</span><span class="h-tag">&lt;/h2&gt;</span>
+      <span class="h-tag">&lt;ul&gt;</span>
+        <span class="h-tag">&lt;li&gt;</span><span class="h-txt">Coding</span><span class="h-tag">&lt;/li&gt;</span>
+        <span class="h-tag">&lt;li&gt;</span><span class="h-txt">Pizza</span><span class="h-tag">&lt;/li&gt;</span>
+      <span class="h-tag">&lt;/ul&gt;</span>
+      <span class="h-tag">&lt;img</span> <span class="h-attr">src</span>=<span class="h-str">"pizza.jpg"</span> <span class="h-attr">width</span>=<span class="h-str">"300"</span><span class="h-tag">&gt;</span>
+    <span class="h-tag">&lt;/section&gt;</span>
+  <span class="h-tag">&lt;/main&gt;</span>
+
+  <span class="h-tag">&lt;footer&gt;</span>
+    <span class="h-tag">&lt;p&gt;</span><span class="h-txt">&amp;copy; 2026 Sarah. All rights reserved.</span><span class="h-tag">&lt;/p&gt;</span>
+  <span class="h-tag">&lt;/footer&gt;</span>
+<span class="h-tag">&lt;/body&gt;</span></code></pre>
+            </div>
+        </section>
+
+        <section class="card" style="border-left: 4px solid var(--success); background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), transparent);">
+            <h2 style="color: var(--success); border-bottom-color: var(--success);">🏠 Homework: The Final Polish</h2>
+            <p>Take your Mini Project website and turn it into a masterpiece to show your friends and family!</p>
+            <p>Improve your website by adding:</p>
+            <ul>
+                <li>More images to make it colorful.</li>
+                <li>A third <code>&lt;section&gt;</code> that contains a <strong>Table</strong> of your favorite movies or shows.</li>
+                <li>A navigation menu in the <code>&lt;header&gt;</code> using <code>&lt;a&gt;</code> links.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>📚 Course Summary: You did it!</h2>
+            <p>Let's review the final concepts you've mastered today:</p>
+            <ul>
+                <li><strong>Page Layout:</strong> Websites are divided into sections like headers, main content, and footers.</li>
+                <li><strong><code>&lt;div&gt;</code>:</strong> A block container used to group elements together like an invisible box.</li>
+                <li><strong><code>&lt;span&gt;</code> & Formatting:</strong> Inline tags used to style or highlight specific words without breaking the sentence (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;mark&gt;</code>).</li>
+                <li><strong>Semantic HTML:</strong> Special tags like <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, and <code>&lt;footer&gt;</code> that act exactly like divs, but have clear meaning for search engines and screen readers!</li>
+            </ul>
+            <p style="color: var(--accent-cyan); font-weight: bold; text-align: center; margin-top: 2rem; font-size: 1.2rem;">Congratulations on completing HTML Fundamentals!</p>
+        </section>
+
+        <div class="session-nav">
+            <a href="session3.html" class="nav-btn">⬅ Previous Session</a>
+            <a href="#" class="nav-btn" style="background-color: var(--success); color: white;" onclick="alert('Course Complete! Great job!');">Finish Course 🏆</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; TechTicket Academy — Educational material for TechTicket students only. Redistribution is not allowed.</p>
+    </footer>
+
+    <script>
+        // Copy Code Functionality
+        function copyCode(elementId, button) {
+            const codeBlock = document.getElementById(elementId);
+            const textToCopy = codeBlock.innerText;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = "Copied! ✓";
+                button.classList.add("copied");
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove("copied");
+                }, 2000);
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+                button.innerHTML = "Error";
+            });
+        }
+
+        // Toggle Hint Content
+        function toggleHint(hintId) {
+            const hintElement = document.getElementById(hintId);
+            if (hintElement.style.display === "block") {
+                hintElement.style.display = "none";
+            } else {
+                hintElement.style.display = "block";
+            }
+        }
+
+        // Toggle Collapsible Explanations
+        function toggleExplanation(explainId) {
+            const content = document.getElementById(explainId);
+            const button = content.previousElementSibling;
+            
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                button.classList.remove("active");
+            } else {
+                content.style.display = "block";
+                button.classList.add("active");
+            }
+        }
+    </script>
+</body>
+</html>

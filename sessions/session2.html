@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTicket | Session 2 - HTML Elements, Attributes, Links, and Images</title>
+    <link rel="icon" href="../logo.png" type="image/x-icon">
+    <style>
+        /* === Color Palette & Variables === */
+        :root {
+            --bg-main: #090e17;
+            --bg-card: #111827;
+            --bg-code: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-cyan: #22d3ee;
+            --accent-blue: #3b82f6;
+            --accent-pink: #ec4899;
+            --accent-green: #10b981;
+            --accent-yellow: #f59e0b;
+            --border-color: #334155;
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --border-radius: 12px;
+            --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --font-code: 'Consolas', 'Courier New', monospace;
+        }
+
+        /* === Global Styles === */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 0.5rem; text-align: center; }
+        h2 { font-size: 1.6rem; color: var(--accent-cyan); margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.2rem; color: var(--accent-blue); margin-top: 1.5rem; margin-bottom: 0.8rem; }
+        
+        p { margin-bottom: 1rem; font-size: 1.05rem; }
+        ul { margin-bottom: 1rem; padding-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; font-size: 1.05rem; }
+
+        strong { color: var(--accent-cyan); }
+        em { color: var(--accent-pink); font-style: normal; font-weight: bold; }
+
+        /* Inline Code */
+        code:not(pre code) {
+            background-color: rgba(34, 211, 238, 0.1);
+            color: var(--accent-cyan);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-code);
+            font-size: 0.9em;
+        }
+
+        /* === Layout === */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* === Header === */
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(to bottom, #0f172a, var(--bg-main));
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .course-title {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* === Cards (Learning Sections) === */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-blue));
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #475569;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* === Code Blocks === */
+        .code-container {
+            background-color: var(--bg-code);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .code-header {
+            background-color: #0f172a;
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .mac-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .mac-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot-red { background-color: #ff5f56; }
+        .dot-yellow { background-color: #ffbd2e; }
+        .dot-green { background-color: #27c93f; }
+
+        .btn-copy {
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--text-muted);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            background-color: rgba(34, 211, 238, 0.1);
+        }
+
+        .btn-copy.copied {
+            background-color: var(--accent-green);
+            color: #fff;
+            border-color: var(--accent-green);
+        }
+
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 0;
+        }
+
+        pre code {
+            font-family: var(--font-code);
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        /* Syntax Highlighting */
+        .tag { color: #ec4899; } /* Pink */
+        .attr { color: #f59e0b; } /* Yellow */
+        .val { color: #10b981; } /* Green */
+        .bracket { color: #94a3b8; } /* Gray */
+        .content { color: #f8fafc; } /* White */
+        .comment { color: #94a3b8; font-style: italic; }
+
+        /* === Visual Diagrams (SVG Containers) === */
+        .diagram-box {
+            background-color: var(--bg-code);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: auto;
+        }
+        
+        .diagram-box svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* === Interactive Elements === */
+        .collapsible-btn {
+            background-color: transparent;
+            color: var(--accent-cyan);
+            border: none;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        .collapsible-btn::before {
+            content: '▶';
+            font-size: 0.8em;
+            transition: transform 0.2s;
+        }
+
+        .collapsible-btn.active::before {
+            transform: rotate(90deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 1rem;
+            background-color: rgba(30, 41, 59, 0.5);
+            border-left: 2px solid var(--accent-cyan);
+            border-radius: 0 0 8px 0;
+            margin-top: 0.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .exercise-item {
+            background-color: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .exercise-item h4 {
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-hint {
+            background-color: #1e293b;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-hint:hover {
+            background-color: #334155;
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+        }
+
+        .hint-content {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--accent-cyan);
+            border-radius: 0 4px 4px 0;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .mini-challenge {
+            border-color: var(--accent-yellow);
+        }
+        .mini-challenge::before {
+            background: linear-gradient(to bottom, var(--accent-yellow), #f97316);
+        }
+        .mini-challenge h2 { color: var(--accent-yellow); border-bottom-color: var(--accent-yellow); }
+
+        /* === Navigation & Footer === */
+        .session-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-btn {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+            text-align: center;
+            flex: 1;
+            margin: 0 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            background-color: #020617;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            h1 { font-size: 1.8rem; }
+            .session-nav { flex-direction: column; gap: 1rem; }
+            .nav-btn { margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="../logo.png" alt="TechTicket Logo" class="logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+            <h2 id="logo-fallback" style="display:none; color: var(--accent-cyan); border: none; font-size: 2.5rem; letter-spacing: 2px;">TechTicket</h2>
+        </div>
+        <div class="course-title">HTML Fundamentals</div>
+        <h1>Session 2 — HTML Elements, Attributes, Links, and Images</h1>
+    </header>
+
+    <main class="container">
+
+        <section class="card">
+            <h2>🎯 Session Overview</h2>
+            <p>Welcome to Session 2! In our first session, we built the basic skeleton of a web page using <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code> tags.</p>
+            <p>Today, we are going to add the meat and muscles to that skeleton! By the end of this session, you will learn how to:</p>
+            <ul>
+                <li>Understand the anatomy of an <strong>HTML Element</strong> (like a digital Lego brick).</li>
+                <li>Give your elements superpowers using <strong>HTML Attributes</strong>.</li>
+                <li>Format your text beautifully using <strong>Headings</strong> and <strong>Paragraphs</strong>.</li>
+                <li>Connect websites together using clickable <strong>Links</strong>.</li>
+                <li>Make your page look awesome by inserting <strong>Images</strong>.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>⏪ Quick Recap: Session 1</h2>
+            <p>Let's do a fast memory check. What did we learn last time?</p>
+            <ul>
+                <li>The <strong>Internet</strong> connects computers globally, while the <strong>Web</strong> is the collection of websites living on it.</li>
+                <li><strong>Web browsers</strong> (like Chrome or Edge) read HTML code and turn it into the visual pages you see.</li>
+                <li>Every HTML document is a sandwich: The <code>&lt;html&gt;</code> wraps everything. The <code>&lt;head&gt;</code> holds invisible settings. The <code>&lt;body&gt;</code> holds everything you can actually see on screen.</li>
+            </ul>
+            <p>Now, let's learn exactly how the tags inside the <code>&lt;body&gt;</code> work!</p>
+        </section>
+
+        <section class="card">
+            <h2>🧱 What is an HTML Element?</h2>
+            <p>An <strong>HTML Element</strong> is a single piece of content on a web page. Think of elements as Lego bricks. You stack them together to build a house (a website!).</p>
+            <p>Most elements have three distinct parts:</p>
+            <ol>
+                <li>An <strong>Opening Tag</strong>: Tells the browser where the element begins.</li>
+                <li>The <strong>Content</strong>: The actual text or stuff you want to show on the screen.</li>
+                <li>A <strong>Closing Tag</strong>: Tells the browser where the element ends (notice the forward slash <code>/</code>).</li>
+            </ol>
+
+            <div class="diagram-box">
+                <svg width="500" height="150" viewBox="0 0 500 150">
+                    <text x="50" y="60" font-family="monospace" font-size="28" fill="#ec4899">&lt;h1&gt;</text>
+                    <text x="140" y="60" font-family="monospace" font-size="28" fill="#f8fafc">Hello World</text>
+                    <text x="360" y="60" font-family="monospace" font-size="28" fill="#ec4899">&lt;/h1&gt;</text>
+
+                    <path d="M 85 70 L 85 100" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="85" y="125" font-family="sans-serif" font-size="14" fill="#3b82f6" text-anchor="middle">Opening Tag</text>
+
+                    <path d="M 250 70 L 250 100" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="250" y="125" font-family="sans-serif" font-size="14" fill="#10b981" text-anchor="middle">Content</text>
+
+                    <path d="M 405 70 L 405 100" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="405" y="125" font-family="sans-serif" font-size="14" fill="#f59e0b" text-anchor="middle">Closing Tag</text>
+
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            <p>If you forget the closing tag, the browser gets confused, and your whole page might look like a giant, messy block of text!</p>
+        </section>
+
+        <section class="card">
+            <h2>⚙️ What is an HTML Attribute?</h2>
+            <p>Sometimes, an opening tag needs a little extra instructions to do its job. We provide this extra info using an <strong>Attribute</strong>.</p>
+            <p>Imagine your HTML element is a person. The tag says "I am a person". The attribute says "I am wearing a <em>blue shirt</em>".</p>
+            <p>Attributes are always written <em>inside</em> the opening tag. They consist of an <strong>attribute name</strong> and an <strong>attribute value</strong> surrounded by quotation marks.</p>
+
+            <div class="diagram-box">
+                <svg width="600" height="150" viewBox="0 0 600 150">
+                    <text x="20" y="60" font-family="monospace" font-size="24" fill="#94a3b8">&lt;</text>
+                    <text x="35" y="60" font-family="monospace" font-size="24" fill="#ec4899">tag</text>
+                    
+                    <text x="90" y="60" font-family="monospace" font-size="24" fill="#f59e0b">attribute_name</text>
+                    <text x="300" y="60" font-family="monospace" font-size="24" fill="#94a3b8">=</text>
+                    <text x="320" y="60" font-family="monospace" font-size="24" fill="#10b981">"value"</text>
+                    
+                    <text x="430" y="60" font-family="monospace" font-size="24" fill="#94a3b8">&gt;</text>
+                    <text x="450" y="60" font-family="monospace" font-size="24" fill="#f8fafc">Content</text>
+                    <text x="550" y="60" font-family="monospace" font-size="24" fill="#94a3b8">&lt;/</text>
+                    <text x="575" y="60" font-family="monospace" font-size="24" fill="#ec4899">tag</text>
+                    <text x="615" y="60" font-family="monospace" font-size="24" fill="#94a3b8">&gt;</text>
+
+                    <path d="M 190 70 L 190 100" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="190" y="125" font-family="sans-serif" font-size="14" fill="#f59e0b" text-anchor="middle">Attribute Name</text>
+
+                    <path d="M 360 70 L 360 100" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="360" y="125" font-family="sans-serif" font-size="14" fill="#10b981" text-anchor="middle">Attribute Value</text>
+                </svg>
+            </div>
+
+            <h3>Common Attributes We Will Use Today:</h3>
+            <ul>
+                <li><em>href</em>: Tells a link exactly where to go (the destination URL).</li>
+                <li><em>src</em>: Tells an image where to find its picture file.</li>
+                <li><em>alt</em>: Provides backup text if an image fails to load.</li>
+                <li><em>width</em>: Changes how wide an image is.</li>
+                <li><em>target</em>: Tells a link to open in a new tab instead of the current one.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>📝 Headings and Paragraphs</h2>
+            <p>Every good article, game review, or blog needs titles and readable text. HTML gives us 6 levels of headings to organize our content, from <code>&lt;h1&gt;</code> (the biggest) down to <code>&lt;h6&gt;</code> (the smallest).</p>
+            <p>For your normal, everyday sentences, we use the paragraph element: <code>&lt;p&gt;</code>. Paragraphs automatically add space above and below the text so it isn't clustered together.</p>
+
+            <div class="diagram-box">
+                <svg width="400" height="250" viewBox="0 0 400 250">
+                    <text x="20" y="40" font-family="sans-serif" font-size="32" font-weight="bold" fill="#ffffff">This is an &lt;h1&gt;</text>
+                    <text x="20" y="80" font-family="sans-serif" font-size="26" font-weight="bold" fill="#e2e8f0">This is an &lt;h2&gt;</text>
+                    <text x="20" y="115" font-family="sans-serif" font-size="22" font-weight="bold" fill="#cbd5e1">This is an &lt;h3&gt;</text>
+                    <text x="20" y="150" font-family="sans-serif" font-size="18" font-weight="bold" fill="#94a3b8">This is an &lt;h4&gt;</text>
+                    <text x="20" y="180" font-family="sans-serif" font-size="15" font-weight="bold" fill="#64748b">This is an &lt;h5&gt;</text>
+                    <text x="20" y="210" font-family="sans-serif" font-size="12" font-weight="bold" fill="#475569">This is an &lt;h6&gt;</text>
+                </svg>
+            </div>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="mac-dots"><div class="mac-dot dot-red"></div><div class="mac-dot dot-yellow"></div><div class="mac-dot dot-green"></div></div>
+                    <button class="btn-copy" onclick="copyCode('code-text', this)">Copy Code</button>
+                </div>
+<pre><code id="code-text"><span class="bracket">&lt;</span><span class="tag">h1</span><span class="bracket">&gt;</span><span class="content">Minecraft Review</span><span class="bracket">&lt;/</span><span class="tag">h1</span><span class="bracket">&gt;</span>
+<span class="bracket">&lt;</span><span class="tag">h2</span><span class="bracket">&gt;</span><span class="content">Why I love this game</span><span class="bracket">&lt;/</span><span class="tag">h2</span><span class="bracket">&gt;</span>
+
+<span class="bracket">&lt;</span><span class="tag">p</span><span class="bracket">&gt;</span><span class="content">Minecraft is an amazing game where you can build anything you imagine using blocks. I like playing in survival mode with my friends.</span><span class="bracket">&lt;/</span><span class="tag">p</span><span class="bracket">&gt;</span></code></pre>
+            </div>
+            
+            <button class="collapsible-btn" onclick="toggleCollapse('explain-text')">Step-by-Step Code Explanation</button>
+            <div id="explain-text" class="collapsible-content">
+                <p><strong>Line 1:</strong> <code>&lt;h1&gt;</code> creates the main, largest title on the page. Only use one of these per page!</p>
+                <p><strong>Line 2:</strong> <code>&lt;h2&gt;</code> creates a sub-title. It's slightly smaller. Good for dividing your page into sections!</p>
+                <p><strong>Line 4:</strong> <code>&lt;p&gt;</code> creates a block of text. When you close it with <code>&lt;/p&gt;</code>, the browser knows the paragraph is finished.</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🔗 Adding Links</h2>
+            <p>The "Web" is called a web because all the pages are connected together! We connect pages using the <strong>Anchor</strong> element, written as <code>&lt;a&gt;</code>.</p>
+            <p>But an anchor tag alone is useless. It needs to know <em>where</em> to take you when you click it. We tell it where to go using the <code>href</code> attribute (which stands for Hypertext REFerence).</p>
+
+            <div class="diagram-box">
+                <svg width="600" height="150" viewBox="0 0 600 150">
+                    <text x="50" y="50" font-family="monospace" font-size="22" fill="#ec4899">&lt;a</text>
+                    <text x="85" y="50" font-family="monospace" font-size="22" fill="#f59e0b"> href=</text>
+                    <text x="160" y="50" font-family="monospace" font-size="22" fill="#10b981">"https://google.com"</text>
+                    <text x="400" y="50" font-family="monospace" font-size="22" fill="#94a3b8">&gt;</text>
+                    <text x="415" y="50" font-family="monospace" font-size="22" fill="#f8fafc">Open Google</text>
+                    <text x="555" y="50" font-family="monospace" font-size="22" fill="#ec4899">&lt;/a&gt;</text>
+                    
+                    <line x1="60" y1="60" x2="60" y2="100" stroke="#ec4899" stroke-width="2"/>
+                    <text x="60" y="120" font-family="sans-serif" font-size="14" fill="#ec4899" text-anchor="middle">Tag</text>
+
+                    <line x1="120" y1="60" x2="120" y2="100" stroke="#f59e0b" stroke-width="2"/>
+                    <text x="120" y="120" font-family="sans-serif" font-size="14" fill="#f59e0b" text-anchor="middle">Attribute</text>
+
+                    <line x1="280" y1="60" x2="280" y2="100" stroke="#10b981" stroke-width="2"/>
+                    <text x="280" y="120" font-family="sans-serif" font-size="14" fill="#10b981" text-anchor="middle">Destination URL</text>
+
+                    <line x1="485" y1="60" x2="485" y2="100" stroke="#f8fafc" stroke-width="2"/>
+                    <text x="485" y="120" font-family="sans-serif" font-size="14" fill="#f8fafc" text-anchor="middle">Clickable Text</text>
+                </svg>
+            </div>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="mac-dots"><div class="mac-dot dot-red"></div><div class="mac-dot dot-yellow"></div><div class="mac-dot dot-green"></div></div>
+                    <button class="btn-copy" onclick="copyCode('code-links', this)">Copy Code</button>
+                </div>
+<pre><code id="code-links"><span class="bracket">&lt;</span><span class="tag">p</span><span class="bracket">&gt;</span><span class="content">Want to learn more?</span><span class="bracket">&lt;/</span><span class="tag">p</span><span class="bracket">&gt;</span>
+<span class="bracket">&lt;</span><span class="tag">a</span> <span class="attr">href</span><span class="bracket">=</span><span class="val">"https://www.google.com"</span> <span class="attr">target</span><span class="bracket">=</span><span class="val">"_blank"</span><span class="bracket">&gt;</span><span class="content">Search on Google</span><span class="bracket">&lt;/</span><span class="tag">a</span><span class="bracket">&gt;</span></code></pre>
+            </div>
+
+            <button class="collapsible-btn" onclick="toggleCollapse('explain-link')">Step-by-Step Code Explanation</button>
+            <div id="explain-link" class="collapsible-content">
+                <p><strong><code>&lt;a</code></strong>: Starts the anchor link element.</p>
+                <p><strong><code>href="https://www.google.com"</code></strong>: The required attribute telling the browser where to navigate.</p>
+                <p><strong><code>target="_blank"</code></strong>: An optional but useful attribute! It tells the browser to open the link in a brand new tab so the user doesn't lose your page.</p>
+                <p><strong><code>&gt;Search on Google</code></strong>: Closes the opening tag and provides the text the user will actually see and click on.</p>
+                <p><strong><code>&lt;/a&gt;</code></strong>: The closing tag that ends the link.</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🖼️ Inserting Images</h2>
+            <p>A website without pictures is pretty boring! To add an image, we use the <code>&lt;img&gt;</code> element.</p>
+            <p><strong>Important Rule:</strong> The <code>&lt;img&gt;</code> tag is what we call an "empty element" or "self-closing tag". Because it doesn't wrap around any text, <em>it does not have a closing tag</em>!</p>
+
+            <p>The image tag relies entirely on attributes to work:</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="mac-dots"><div class="mac-dot dot-red"></div><div class="mac-dot dot-yellow"></div><div class="mac-dot dot-green"></div></div>
+                    <button class="btn-copy" onclick="copyCode('code-img', this)">Copy Code</button>
+                </div>
+<pre><code id="code-img"><span class="bracket">&lt;</span><span class="tag">h3</span><span class="bracket">&gt;</span><span class="content">My Pet Dog</span><span class="bracket">&lt;/</span><span class="tag">h3</span><span class="bracket">&gt;</span>
+
+<span class="comment">&lt;!-- Adding an image of a dog --&gt;</span>
+<span class="bracket">&lt;</span><span class="tag">img</span> <span class="attr">src</span><span class="bracket">=</span><span class="val">"dog.jpg"</span> <span class="attr">alt</span><span class="bracket">=</span><span class="val">"A happy golden retriever"</span> <span class="attr">width</span><span class="bracket">=</span><span class="val">"400"</span><span class="bracket">&gt;</span></code></pre>
+            </div>
+
+            <button class="collapsible-btn" onclick="toggleCollapse('explain-img')">Step-by-Step Code Explanation</button>
+            <div id="explain-img" class="collapsible-content">
+                <p><strong><code>&lt;img</code></strong>: Opens the image tag.</p>
+                <p><strong><code>src="dog.jpg"</code></strong>: The "Source" attribute. This tells the browser the file name (or URL) of the picture to display.</p>
+                <p><strong><code>alt="A happy golden retriever"</code></strong>: "Alternative text". If the picture fails to load, this text shows up instead. It is also read aloud by screen readers for blind users. Always include this!</p>
+                <p><strong><code>width="400"</code></strong>: Forces the image to be exactly 400 pixels wide, preventing giant images from breaking your layout.</p>
+                <p><strong><code>&gt;</code></strong>: Closes the tag. Notice there is no <code>&lt;/img&gt;</code> at the end!</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🧩 Putting It All Together</h2>
+            <p>Here is what a simple web page looks like when we combine Headings, Paragraphs, Links, and Images into the <code>&lt;body&gt;</code>!</p>
+
+            <div class="diagram-box" style="background-color: #ffffff; padding: 10px; border-radius: 8px;">
+                <div style="border: 2px solid #cbd5e1; border-radius: 8px; background: #f8fafc; height: 320px; width: 100%; text-align: left; padding: 0; position: relative; overflow: hidden;">
+                    <div style="background: #e2e8f0; height: 40px; width: 100%; display: flex; align-items: center; padding-left: 15px; border-bottom: 1px solid #cbd5e1;">
+                        <div style="width: 12px; height: 12px; background: #ef4444; border-radius: 50%; margin-right: 6px;"></div>
+                        <div style="width: 12px; height: 12px; background: #f59e0b; border-radius: 50%; margin-right: 6px;"></div>
+                        <div style="width: 12px; height: 12px; background: #10b981; border-radius: 50%;"></div>
+                        <div style="background: #ffffff; margin-left: 20px; padding: 4px 15px; border-radius: 4px; font-size: 12px; color: #64748b; font-family: sans-serif;">My Favorite Game</div>
+                    </div>
+                    
+                    <div style="padding: 20px;">
+                        <h1 style="color: #0f172a; margin: 0 0 10px 0; font-family: sans-serif; font-size: 26px;">Minecraft</h1>
+                        <p style="color: #334155; font-family: sans-serif; font-size: 15px; margin: 0 0 15px 0;">Minecraft is a game made of blocks where you can build anything you can imagine!</p>
+                        
+                        <div style="width: 180px; height: 100px; background: #22c55e; border: 3px solid #166534; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-family: sans-serif; margin-bottom: 15px;">
+                            
+
+[Image of Game]
+
+                        </div>
+                        
+                        <a href="#" style="color: #2563eb; text-decoration: underline; font-family: sans-serif; font-size: 15px;">Visit Official Website</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🏋️ Practice Exercises</h2>
+            <p>Open your code editor. Create a new file called <code>practice2.html</code> and try these challenges!</p>
+
+            <div class="exercise-item">
+                <h4>Exercise 1: Title and Story</h4>
+                <p>Create a basic HTML structure. Inside the <code>&lt;body&gt;</code>, add a main heading (<code>&lt;h1&gt;</code>) that says "My Favorite Game". Below it, write a short paragraph describing why you love the game.</p>
+                <button class="btn-hint" onclick="toggleHint('hint1')">💡 Show Hint</button>
+                <div id="hint1" class="hint-content">
+                    Use <code>&lt;h1&gt;Your Title&lt;/h1&gt;</code> for the heading, and <code>&lt;p&gt;Your description here.&lt;/p&gt;</code> for the paragraph!
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <h4>Exercise 2: Picture Perfect</h4>
+                <p>Find an image URL of your game online. (Right-click an image on Google -> "Copy Image Address"). Add the image right below your paragraph using the <code>&lt;img&gt;</code> tag.</p>
+                <button class="btn-hint" onclick="toggleHint('hint2')">💡 Show Hint</button>
+                <div id="hint2" class="hint-content">
+                    <code>&lt;img src="paste_your_url_here" alt="Game cover" width="300"&gt;</code>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <h4>Exercise 3: The Portal</h4>
+                <p>Add a link at the very bottom of your page that takes the user to the official website or wiki of the game.</p>
+                <button class="btn-hint" onclick="toggleHint('hint3')">💡 Show Hint</button>
+                <div id="hint3" class="hint-content">
+                    <code>&lt;a href="https://minecraft.net" target="_blank"&gt;Play Here&lt;/a&gt;</code>
+                </div>
+            </div>
+        </section>
+
+        <section class="card mini-challenge">
+            <h2>🔥 Mini Challenge: The Ultimate Game Page</h2>
+            <p>Let's make sure you can put all the pieces together from memory.</p>
+            <p>Delete everything inside the <code>&lt;body&gt;</code> of your practice file. Create a complete page from scratch containing:</p>
+            <ol>
+                <li>An <code>&lt;h1&gt;</code> with the game name.</li>
+                <li>An <code>&lt;h2&gt;</code> that says "Why I love it".</li>
+                <li>A <code>&lt;p&gt;</code> describing the game.</li>
+                <li>An <code>&lt;img&gt;</code> showing the game cover.</li>
+                <li>An <code>&lt;a&gt;</code> link pointing to the game's official site.</li>
+            </ol>
+            <button class="btn-hint" style="border-color: var(--accent-yellow); color: var(--accent-yellow);" onclick="toggleHint('hint-challenge')">👀 Show Solution Code</button>
+            <div id="hint-challenge" class="hint-content" style="border-color: var(--accent-yellow);">
+                <pre style="padding: 0; background: transparent;"><code><span class="bracket">&lt;</span><span class="tag">body</span><span class="bracket">&gt;</span>
+  <span class="bracket">&lt;</span><span class="tag">h1</span><span class="bracket">&gt;</span><span class="content">Roblox</span><span class="bracket">&lt;/</span><span class="tag">h1</span><span class="bracket">&gt;</span>
+  <span class="bracket">&lt;</span><span class="tag">h2</span><span class="bracket">&gt;</span><span class="content">Why I love it</span><span class="bracket">&lt;/</span><span class="tag">h2</span><span class="bracket">&gt;</span>
+  <span class="bracket">&lt;</span><span class="tag">p</span><span class="bracket">&gt;</span><span class="content">I can play thousands of different games with my friends!</span><span class="bracket">&lt;/</span><span class="tag">p</span><span class="bracket">&gt;</span>
+  
+  <span class="bracket">&lt;</span><span class="tag">img</span> <span class="attr">src</span><span class="bracket">=</span><span class="val">"roblox-logo.jpg"</span> <span class="attr">alt</span><span class="bracket">=</span><span class="val">"Roblox Logo"</span> <span class="attr">width</span><span class="bracket">=</span><span class="val">"300"</span><span class="bracket">&gt;</span><br>
+  
+  <span class="bracket">&lt;</span><span class="tag">a</span> <span class="attr">href</span><span class="bracket">=</span><span class="val">"https://roblox.com"</span><span class="bracket">&gt;</span><span class="content">Play Now</span><span class="bracket">&lt;/</span><span class="tag">a</span><span class="bracket">&gt;</span>
+<span class="bracket">&lt;/</span><span class="tag">body</span><span class="bracket">&gt;</span></code></pre>
+            </div>
+        </section>
+
+        <section class="card" style="border-left: 4px solid var(--accent-green); background: linear-gradient(to right, rgba(16, 185, 129, 0.05), transparent);">
+            <h2 style="color: var(--accent-green); border-bottom-color: var(--accent-green);">🏠 Homework Assignment</h2>
+            <p>Your mission before the next session:</p>
+            <p>Create a webpage about your <strong>Favorite Hobby</strong> (sports, drawing, coding, reading, etc.).</p>
+            <p>The page must include:</p>
+            <ul>
+                <li>One main heading (<code>&lt;h1&gt;</code>).</li>
+                <li>At least <strong>two</strong> paragraphs (<code>&lt;p&gt;</code>) explaining the hobby.</li>
+                <li>One image (<code>&lt;img&gt;</code>) showing the hobby in action.</li>
+                <li>One link (<code>&lt;a&gt;</code>) pointing to a YouTube video or website related to the hobby.</li>
+            </ul>
+            <p>Save it as <code>hobby.html</code> and test it in your browser to make sure the link and image actually work!</p>
+        </section>
+
+        <section class="card">
+            <h2>📝 Session Summary</h2>
+            <ul>
+                <li><strong>HTML Elements</strong> are the building blocks of the web, usually made of an opening tag, content, and a closing tag.</li>
+                <li><strong>Attributes</strong> go inside the opening tag and give the element extra instructions (like <code>src</code>, <code>href</code>, <code>width</code>).</li>
+                <li><code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code> are used for <strong>Headings</strong> to structure your content.</li>
+                <li><code>&lt;p&gt;</code> is used for blocks of readable <strong>Paragraphs</strong>.</li>
+                <li><code>&lt;a&gt;</code> is an <strong>Anchor</strong> used to create links, combined with the <code>href</code> attribute.</li>
+                <li><code>&lt;img&gt;</code> inserts <strong>Images</strong> using the <code>src</code> attribute. It is an empty element with NO closing tag.</li>
+            </ul>
+        </section>
+
+        <div class="session-nav">
+            <a href="session1.html" class="nav-btn">⬅ Previous Session</a>
+            <a href="session3.html" class="nav-btn">Next Session ➡</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; TechTicket Academy — Educational material for TechTicket students only. Redistribution is not allowed.</p>
+    </footer>
+
+    <script>
+        // Copy to clipboard functionality
+        function copyCode(elementId, button) {
+            const codeBlock = document.getElementById(elementId);
+            const textToCopy = codeBlock.innerText;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = "Copied! ✓";
+                button.classList.add("copied");
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove("copied");
+                }, 2000);
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+                button.innerHTML = "Error";
+            });
+        }
+
+        // Toggle Hint functionality
+        function toggleHint(hintId) {
+            const hintElement = document.getElementById(hintId);
+            if (hintElement.style.display === "block") {
+                hintElement.style.display = "none";
+            } else {
+                hintElement.style.display = "block";
+            }
+        }
+
+        // Collapsible Explanations
+        function toggleCollapse(explainId) {
+            const content = document.getElementById(explainId);
+            const btn = content.previousElementSibling;
+            
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                btn.classList.remove("active");
+            } else {
+                content.style.display = "block";
+                btn.classList.add("active");
+            }
+        }
+    </script>
+</body>
+</html>
